@@ -69,4 +69,8 @@ theme: next
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
-  type:
+  type: git
+  repo: git@github.com:Seven88/Seven88.github.io.git
+  branch: [master]
+
+duoshuo_shortname: seven88
