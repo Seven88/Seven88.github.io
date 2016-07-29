@@ -1,0 +1,749 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="翻译,Python," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="英文出处：pydanny.com校稿：伯乐在线 - 唐尤华
+不同于我用过的其它编程语言，Python 没有 switch / case 语句。为了实现它，我们可以使用字典映射：
+1234567def numbers_to_strings(argument):    switcher = &amp;#123;        0: &quot;zero&quot;,        1: &quot;one&quot;,        2: &quot;two">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【译】为什么Python中没有Switch/Case语句">
+<meta property="og:url" content="https://seven88.github.io/2015/09/05/【译】为什么Python中没有Switch-Case语句/index.html">
+<meta property="og:site_name" content="Seven's Notes">
+<meta property="og:description" content="英文出处：pydanny.com校稿：伯乐在线 - 唐尤华
+不同于我用过的其它编程语言，Python 没有 switch / case 语句。为了实现它，我们可以使用字典映射：
+1234567def numbers_to_strings(argument):    switcher = &amp;#123;        0: &quot;zero&quot;,        1: &quot;one&quot;,        2: &quot;two">
+<meta property="og:updated_time" content="2016-07-29T03:58:41.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【译】为什么Python中没有Switch/Case语句">
+<meta name="twitter:description" content="英文出处：pydanny.com校稿：伯乐在线 - 唐尤华
+不同于我用过的其它编程语言，Python 没有 switch / case 语句。为了实现它，我们可以使用字典映射：
+1234567def numbers_to_strings(argument):    switcher = &amp;#123;        0: &quot;zero&quot;,        1: &quot;one&quot;,        2: &quot;two">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="https://seven88.github.io/2015/09/05/【译】为什么Python中没有Switch-Case语句/"/>
+
+  <title> 【译】为什么Python中没有Switch/Case语句 | Seven's Notes </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="//s6.cnzz.com/stat.php?id=1259657369&web_id=1259657369" type="text/javascript"></script>
+  </div>
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Seven's Notes</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                【译】为什么Python中没有Switch/Case语句
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-09-05T18:13:40+08:00" content="2015-09-05">
+              2015-09-05
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/09/05/【译】为什么Python中没有Switch-Case语句/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/09/05/【译】为什么Python中没有Switch-Case语句/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2015/09/05/【译】为什么Python中没有Switch-Case语句/" class="leancloud_visitors" data-flag-title="【译】为什么Python中没有Switch/Case语句">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><strong>英文出处：<a href="http://www.pydanny.com/why-doesnt-python-have-switch-case.html" target="_blank" rel="external">pydanny.com</a></strong><br><strong>校稿：<a href="http://www.jobbole.com/members/tangyouhua" target="_blank" rel="external">伯乐在线 - 唐尤华</a></strong></p>
+<p>不同于我用过的其它编程语言，Python 没有 switch / case 语句。为了实现它，我们可以使用字典映射：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">numbers_to_strings</span><span class="params">(argument)</span>:</span></div><div class="line">    switcher = &#123;</div><div class="line">        <span class="number">0</span>: <span class="string">"zero"</span>,</div><div class="line">        <span class="number">1</span>: <span class="string">"one"</span>,</div><div class="line">        <span class="number">2</span>: <span class="string">"two"</span>,</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> switcher.get(argument, <span class="string">"nothing"</span>)</div></pre></td></tr></table></figure>
+<p>这段代码在 JavaScript 中相当于：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span>(<span class="params">argument</span>)</span>&#123;</div><div class="line">    <span class="keyword">switch</span>(argument) &#123;</div><div class="line">        <span class="keyword">case</span> <span class="number">0</span>:</div><div class="line">            <span class="keyword">return</span> <span class="string">"zero"</span>;</div><div class="line">        <span class="keyword">case</span> <span class="number">1</span>:</div><div class="line">            <span class="keyword">return</span> <span class="string">"one"</span>;</div><div class="line">        <span class="keyword">case</span> <span class="number">2</span>:</div><div class="line">            <span class="keyword">return</span> <span class="string">"two"</span>;</div><div class="line">        <span class="keyword">default</span>:</div><div class="line">            <span class="keyword">return</span> <span class="string">"nothing"</span>;</div><div class="line">    &#125;;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>Python 代码通常比处理 case 的标准方法更为简短，也可以说它更难理解。当我初次使用 Python 时，感觉很奇怪并且心烦意乱。而随着时间的推移，在 switch 中使用字典的 key 来做标识符变得越来越习以为常。</p>
+<a id="more"></a>
+<h3 id="函数的字典映射"><a href="#函数的字典映射" class="headerlink" title="函数的字典映射"></a>函数的字典映射</h3><p>在 Python 中字典映射也可以包含函数或者 lambda 表达式：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">zero</span><span class="params">()</span>:</span></div><div class="line">    <span class="keyword">return</span> <span class="string">"zero"</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">one</span><span class="params">()</span>:</span></div><div class="line">    <span class="keyword">return</span> <span class="string">"one"</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">numbers_to_functions_to_strings</span><span class="params">(argument)</span>:</span></div><div class="line">    switcher = &#123;</div><div class="line">        <span class="number">0</span>: zero,</div><div class="line">        <span class="number">1</span>: one,</div><div class="line">        <span class="number">2</span>: <span class="keyword">lambda</span>: <span class="string">"two"</span>,</div><div class="line">    &#125;</div><div class="line">    <span class="comment"># Get the function from switcher dictionary</span></div><div class="line">    func = switcher.get(argument, <span class="keyword">lambda</span>: <span class="string">"nothing"</span>)</div><div class="line">    <span class="comment"># Execute the function</span></div><div class="line">    <span class="keyword">return</span> func()</div></pre></td></tr></table></figure>
+<p>虽然 zero 和 one 中的代码很简单，但是很多 Python 程序使用这样的字典映射来调度复杂的流程。</p>
+<h3 id="类的调度方法"><a href="#类的调度方法" class="headerlink" title="类的调度方法"></a>类的调度方法</h3><p>如果在一个类中，不确定要使用哪种方法，可以用一个调度方法在运行的时候来确定。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Switcher</span><span class="params">(object)</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">numbers_to_methods_to_strings</span><span class="params">(self, argument)</span>:</span></div><div class="line">        <span class="string">"""Dispatch method"""</span></div><div class="line">        <span class="comment"># prefix the method_name with 'number_' because method names</span></div><div class="line">        <span class="comment"># cannot begin with an integer.</span></div><div class="line">        method_name = <span class="string">'number_'</span> + str(argument)</div><div class="line">        <span class="comment"># Get the method from 'self'. Default to a lambda.</span></div><div class="line">        method = getattr(self, method_name, <span class="keyword">lambda</span>: <span class="string">"nothing"</span>)</div><div class="line">        <span class="comment"># Call the method as we return it</span></div><div class="line">        <span class="keyword">return</span> method()</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">number_0</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="keyword">return</span> <span class="string">"zero"</span></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">number_1</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="keyword">return</span> <span class="string">"one"</span></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">number_2</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="keyword">return</span> <span class="string">"two"</span></div></pre></td></tr></table></figure>
+<p>很灵活，对吧？</p>
+<h3 id="官方说明"><a href="#官方说明" class="headerlink" title="官方说明"></a>官方说明</h3><p><a href="https://docs.python.org/2/faq/design.html#why-isn-t-there-a-switch-or-case-statement-in-python" target="_blank" rel="external">官方的解释</a>说，</p>
+<blockquote>
+<p>用<code>if... elif... elif... else</code>序列很容易来实现 switch / case 语句。</p>
+</blockquote>
+<p>而且可以使用函数字典映射和类的调度方法。</p>
+<p>可以说官方的说明并没有解释什么，只是给出了解决方案。换句话说，没有回答为什么。我认为其实官方真正想说的是：“Python 不需要 switch / case 语句”。</p>
+<h3 id="真的是这样吗？"><a href="#真的是这样吗？" class="headerlink" title="真的是这样吗？"></a>真的是这样吗？</h3><p>是的。但是还有别的原因。我听牛人说过，在代码中 switch/case 语句真的很难调试。</p>
+<p>就我个人而言，我发现当运行到大量嵌套的用作代码分支映射的字典里，上述说法就站不住脚了。想想吧，一个超过100条语句的嵌套字典，和一个嵌套100个以上 case 的 switch/case 代码块一样，都是难以调试的。</p>
+<h3 id="字典映射运行更快？"><a href="#字典映射运行更快？" class="headerlink" title="字典映射运行更快？"></a>字典映射运行更快？</h3><p>Python 没有 case 语句，使用其它语言的衡量标准是没有意义的，因为在某种语言中运行更快并不意味着在另一种语言中也一样。让我们继续。</p>
+<h3 id="Python-实现方法的显著优点"><a href="#Python-实现方法的显著优点" class="headerlink" title="Python 实现方法的显著优点"></a>Python 实现方法的显著优点</h3><p>有时候我会遇到 Python 的实现方法比 switch/case 语句更好用的情况，例如在运行的时候，需要从映射里添加或者删除一些潜在的选项。每当这时，多年来使用字典映射和调度方法的实践让我受益匪浅。现在我觉得，我再也无法回到依赖 switch/case 语句的日子了。</p>
+<h3 id="结束语"><a href="#结束语" class="headerlink" title="结束语"></a>结束语</h3><p>Python 迫使我积累了很多映射的实践经验，对我来说是塞翁失马，焉知非福。没有 switch/case 语句可用的约束，促使我想到了可能不会用来开发的方法和主意。</p>
+<p>有意或无意中，Python 没有 switch/case 语句已成为一种社会建构，并让我成为一个更优秀的程序员。</p>
+<p>综上所述，所以我认为这种意外的社会构建解释比官方的“用这个来代替”的说明要好得多。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/翻译/" rel="tag">#翻译</a>
+          
+            <a href="/tags/Python/" rel="tag">#Python</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/06/30/使用-IPython-的-autoreload-自动重新加载/" rel="next" title="使用 IPython 的 autoreload 自动重新加载">
+                <i class="fa fa-chevron-left"></i> 使用 IPython 的 autoreload 自动重新加载
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/01/12/Gulp-简介及入门/" rel="prev" title="Gulp 简介及入门">
+                Gulp 简介及入门 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2015/09/05/【译】为什么Python中没有Switch-Case语句/"
+           data-title="【译】为什么Python中没有Switch/Case语句" data-url="https://seven88.github.io/2015/09/05/【译】为什么Python中没有Switch-Case语句/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="https://avatars2.githubusercontent.com/u/4360240?v=3&s=460"
+               alt="Seven" />
+          <p class="site-author-name" itemprop="name">Seven</p>
+          <p class="site-description motion-element" itemprop="description">Done is better than perfect.</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">7</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#函数的字典映射"><span class="nav-number">1.</span> <span class="nav-text">函数的字典映射</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#类的调度方法"><span class="nav-number">2.</span> <span class="nav-text">类的调度方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#官方说明"><span class="nav-number">3.</span> <span class="nav-text">官方说明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#真的是这样吗？"><span class="nav-number">4.</span> <span class="nav-text">真的是这样吗？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#字典映射运行更快？"><span class="nav-number">5.</span> <span class="nav-text">字典映射运行更快？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Python-实现方法的显著优点"><span class="nav-number">6.</span> <span class="nav-text">Python 实现方法的显著优点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#结束语"><span class="nav-number">7.</span> <span class="nav-text">结束语</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Seven</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"seven88"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("oJRP3RjRJDwSSWHXSI4elGVS-gzGzoHsz", "3izRC0LlBacexNM3MSqnJWol");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

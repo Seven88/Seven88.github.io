@@ -1,0 +1,812 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="翻译,Python," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="英文出处：Simeon Franklin校稿：伯乐在线 - 艾凌风
+好吧，我标题党了。作为 Python 教师，我发现理解装饰器是学生们从接触后就一直纠结的问题。那是因为装饰器确实难以理解！想弄明白装饰器，需要理解一些函数式编程概念，并且要对Python中函数定义和函数调用语法中的特性有所了解。使用装饰器非常简单（见步骤10），但是写装饰器却很复杂。
+虽然我没法让装饰器变得简单，但也许通过将问题进">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【译】简单 12 步理解 Python 装饰器">
+<meta property="og:url" content="https://seven88.github.io/2016/05/10/【译】简单-12-步理解-Python-装饰器/index.html">
+<meta property="og:site_name" content="Seven's Notes">
+<meta property="og:description" content="英文出处：Simeon Franklin校稿：伯乐在线 - 艾凌风
+好吧，我标题党了。作为 Python 教师，我发现理解装饰器是学生们从接触后就一直纠结的问题。那是因为装饰器确实难以理解！想弄明白装饰器，需要理解一些函数式编程概念，并且要对Python中函数定义和函数调用语法中的特性有所了解。使用装饰器非常简单（见步骤10），但是写装饰器却很复杂。
+虽然我没法让装饰器变得简单，但也许通过将问题进">
+<meta property="og:updated_time" content="2016-07-29T03:58:41.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【译】简单 12 步理解 Python 装饰器">
+<meta name="twitter:description" content="英文出处：Simeon Franklin校稿：伯乐在线 - 艾凌风
+好吧，我标题党了。作为 Python 教师，我发现理解装饰器是学生们从接触后就一直纠结的问题。那是因为装饰器确实难以理解！想弄明白装饰器，需要理解一些函数式编程概念，并且要对Python中函数定义和函数调用语法中的特性有所了解。使用装饰器非常简单（见步骤10），但是写装饰器却很复杂。
+虽然我没法让装饰器变得简单，但也许通过将问题进">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="https://seven88.github.io/2016/05/10/【译】简单-12-步理解-Python-装饰器/"/>
+
+  <title> 【译】简单 12 步理解 Python 装饰器 | Seven's Notes </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="//s6.cnzz.com/stat.php?id=1259657369&web_id=1259657369" type="text/javascript"></script>
+  </div>
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Seven's Notes</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                【译】简单 12 步理解 Python 装饰器
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-05-10T17:56:35+08:00" content="2016-05-10">
+              2016-05-10
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/05/10/【译】简单-12-步理解-Python-装饰器/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/10/【译】简单-12-步理解-Python-装饰器/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2016/05/10/【译】简单-12-步理解-Python-装饰器/" class="leancloud_visitors" data-flag-title="【译】简单 12 步理解 Python 装饰器">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><strong>英文出处：<a href="http://simeonfranklin.com/blog/2012/jul/1/python-decorators-in-12-steps/" target="_blank" rel="external">Simeon Franklin</a></strong><br><strong>校稿：<a href="http://www.jobbole.com/members/hanxiaomax" target="_blank" rel="external">伯乐在线 - 艾凌风</a></strong></p>
+<p>好吧，我标题党了。作为 Python 教师，我发现理解装饰器是学生们从接触后就一直纠结的问题。那是因为装饰器确实难以理解！想弄明白装饰器，需要理解一些函数式编程概念，并且要对Python中函数定义和函数调用语法中的特性有所了解。使用装饰器非常简单（见步骤10），但是写装饰器却很复杂。</p>
+<p>虽然我没法让装饰器变得简单，但也许通过将问题进行一步步的讲解，可以帮助你更容易理解装饰器。由于装饰器较为复杂，文章会比较长，请坚持住！我会尽量使每个步骤简单明了，这样如果你理解了各个步骤，就能理解装饰器的原理。本文假定你具备最基础的 Python 知识，另外本文对工作中大量使用 Python 的人将大有帮助。</p>
+<p>此外需要说明的是，本文中 Python 代码示例是用 <code>doctest</code> 模块来执行的。代码看起来像是交互式 Python 控制台会话（<code>&gt;&gt;&gt;</code> 和 <code>…</code> 表示 Python 语句，输出则另起一行）。偶然有以“doctest”开头的“奇怪”注释——那些只是 <code>doctest</code> 的指令，可以忽略。</p>
+<a id="more"></a>
+<h3 id="1-函数"><a href="#1-函数" class="headerlink" title="1. 函数"></a>1. 函数</h3><p>在 Python 中，使用关键字 <code>def</code> 和一个函数名以及一个可选的参数列表来定义函数。函数使用 <code>return</code> 关键字来返回值。定义和使用一个最简单的函数例子：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span><span class="function"><span class="keyword">def</span> <span class="title">foo</span><span class="params">()</span>:</span></div><div class="line"><span class="meta">... </span>    <span class="keyword">return</span> <span class="number">1</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>foo()</div><div class="line"><span class="number">1</span></div></pre></td></tr></table></figure>
+<p>函数体（和 Python 中所有的多行语句一样）由强制性的缩进表示。在函数名后面加上括号就可以调用函数。</p>
+<h3 id="2-作用域"><a href="#2-作用域" class="headerlink" title="2. 作用域"></a>2. 作用域</h3><p>在 Python 函数中会创建一个新的作用域。Python 高手也称函数有自己的命名空间。也就是说，当在函数体中遇到变量时，Python 会首先在该函数的命名空间中寻找变量名。Python 有几个函数用来查看命名空间。下面来写一个简单函数来看看局部变量和全局变量的区别。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span>a_string = <span class="string">"This is a global variable"</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span><span class="function"><span class="keyword">def</span> <span class="title">foo</span><span class="params">()</span>:</span></div><div class="line"><span class="meta">... </span>    <span class="keyword">print</span> locals()</div><div class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">print</span> globals() <span class="comment"># doctest: +ELLIPSIS</span></div><div class="line">&#123;..., <span class="string">'a_string'</span>: <span class="string">'This is a global variable'</span>&#125;</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>foo() <span class="comment"># 2</span></div><div class="line">&#123;&#125;</div></pre></td></tr></table></figure>
+<p>内建函数 <code>globals</code> 返回一个包含所有 Python 能识别变量的字典。（为了更清楚的描述，输出时省略了 Python 自动创建的变量。）在注释 <code>#2</code> 处，调用了 <code>foo</code> 函数，在函数中打印局部变量的内容。从中可以看到，函数 <code>foo</code> 有自己单独的、此时为空的命名空间。</p>
+<h3 id="3-变量解析规则"><a href="#3-变量解析规则" class="headerlink" title="3. 变量解析规则"></a>3. 变量解析规则</h3><p>当然，以上并不意味着我们不能在函数内部使用全局变量。Python 的作用域规则是， 变量的创建总是会创建一个新的局部变量但是变量的访问（包括修改）在局部作用域查找然后是整个外层作用域来寻找匹配。所以如果修改 <code>foo</code> 函数来打印全部变量，结果将是我们希望的那样：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span>a_string = <span class="string">"This is a global variable"</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span><span class="function"><span class="keyword">def</span> <span class="title">foo</span><span class="params">()</span>:</span></div><div class="line"><span class="meta">... </span>    <span class="keyword">print</span> a_string <span class="comment"># 1</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>foo()</div><div class="line">This <span class="keyword">is</span> a <span class="keyword">global</span> variable</div></pre></td></tr></table></figure>
+<p>在 <code>#1</code> 处，Python 在函数 <code>foo</code> 中搜索局部变量 <code>a_string</code>，但是没有找到，然后继续搜索同名的全局变量。</p>
+<p>另一方面，如果尝试在函数里给全局变量赋值，结果并不是我们想要的那样：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span>a_string = <span class="string">"This is a global variable"</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span><span class="function"><span class="keyword">def</span> <span class="title">foo</span><span class="params">()</span>:</span></div><div class="line"><span class="meta">... </span>    a_string = <span class="string">"test"</span> <span class="comment"># 1</span></div><div class="line"><span class="meta">... </span>    <span class="keyword">print</span> locals()</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>foo()</div><div class="line">&#123;<span class="string">'a_string'</span>: <span class="string">'test'</span>&#125;</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>a_string <span class="comment"># 2</span></div><div class="line"><span class="string">'This is a global variable'</span></div></pre></td></tr></table></figure>
+<p>从上面代码可见，全部变量可以被访问（如果是可变类型，甚至可以被修改）但是（默认）不能被赋值。在函数 <code>#1</code> 处，实际上是创建了一个和全局变量相同名字的局部变量，并且“覆盖”了全局变量。通过在函数 <code>foo</code> 中打印局部命名空间可以印证这一点，并且发现局部命名空间有了一项数据。在 <code>#2</code> 处的输出可以看到，全局命名空间里变量 <code>a_string</code> 的值并没有改变。</p>
+<h3 id="4-变量生命周期"><a href="#4-变量生命周期" class="headerlink" title="4. 变量生命周期"></a>4. 变量生命周期</h3><p>值得注意的是，变量不仅是在命名空间中有效，它们也有生命周期。思考下面的代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span><span class="function"><span class="keyword">def</span> <span class="title">foo</span><span class="params">()</span>:</span></div><div class="line"><span class="meta">... </span>    x = <span class="number">1</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>foo()</div><div class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">print</span> x <span class="comment"># 1</span></div><div class="line">Traceback (most recent call last):</div><div class="line">  ...</div><div class="line">NameError: name <span class="string">'x'</span> <span class="keyword">is</span> <span class="keyword">not</span> defined</div></pre></td></tr></table></figure>
+<p>这个问题不仅仅是因为 <code>#1</code> 处的作用域规则（虽然那是导致 <code>NameError</code> 的原因），也与 Python 和很多其他语言中函数调用的实现有关。没有任何语法可以在该处取得变量 <code>x</code> 的值——它确确实实不存在！函数 <code>foo</code> 的命名空间在每次函数被调用时重新创建，在函数结束时销毁。</p>
+<h3 id="5-函数的实参和形参"><a href="#5-函数的实参和形参" class="headerlink" title="5. 函数的实参和形参"></a>5. 函数的实参和形参</h3><p>Python 允许向函数传递参数。形参名在函数里为局部变量。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span><span class="function"><span class="keyword">def</span> <span class="title">foo</span><span class="params">(x)</span>:</span></div><div class="line"><span class="meta">... </span>    <span class="keyword">print</span> locals()</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>foo(<span class="number">1</span>)</div><div class="line">&#123;<span class="string">'x'</span>: <span class="number">1</span>&#125;</div></pre></td></tr></table></figure>
+<p>Python 有一些不同的方法来定义和传递函数参数。想要深入的了解，请参考 <a href="http://docs.python.org/tutorial/controlflow.html#more-on-defining-functions" target="_blank" rel="external">Python 文档关于函数的定义</a>。来说一个简单版本：函数参数可以是强制的位置参数或者可选的有默认值的关键字参数。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span><span class="function"><span class="keyword">def</span> <span class="title">foo</span><span class="params">(x, y=<span class="number">0</span>)</span>:</span> <span class="comment"># 1</span></div><div class="line"><span class="meta">... </span>    <span class="keyword">return</span> x - y</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>foo(<span class="number">3</span>, <span class="number">1</span>) <span class="comment"># 2</span></div><div class="line"><span class="number">2</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>foo(<span class="number">3</span>) <span class="comment"># 3</span></div><div class="line"><span class="number">3</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>foo() <span class="comment"># 4</span></div><div class="line">Traceback (most recent call last):</div><div class="line">  ...</div><div class="line">TypeError: foo() takes at least <span class="number">1</span> argument (<span class="number">0</span> given)</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>foo(y=<span class="number">1</span>, x=<span class="number">3</span>) <span class="comment"># 5</span></div><div class="line"><span class="number">2</span></div></pre></td></tr></table></figure>
+<p>在 <code>#1</code> 处，定义了有一个位置参数 <code>x</code> 和一个关键字参数 <code>y</code>的函数。接着可以看到，在 <code>#2</code> 处通过普通传参的方式调用该函数——实参值按位置传递给了 <code>foo</code> 的参数，尽管其中一个参数是作为关键字参数定义的。在 <code>#3</code> 处可以看到，调用函数时可以无需给关键字参数传递实参——如果没有给关键字参数 <code>y</code> 传值，Python 将使用声明的默认值 0 为其赋值。当然，参数 <code>x</code> （即位置参数）的值不能为空——在 <code>#4</code> 示范了这种错误异常。</p>
+<p>都很清楚简单，对吧？接下来有些复杂了—— Python 支持在函数调用时使用关键字实参。看 <code>#5</code> 处，虽然函数是用一个关键字形参和一个位置形参定义的，但此处使用了两个关键字实参来调用该函数。因为参数都有名称，所以传递参数的顺序没有影响。</p>
+<p>反过来也是对的。函数 <code>foo</code> 的一个参数被定义为关键字参数，但是如果按位置顺序传递一个实参——在 <code>#2</code> 处调用 <code>foo(3, 1)</code>，给位置形参 <code>x</code> 传实参 3 并给第二个形参 <code>y</code> 传第二个实参（整数 1），尽管 <code>y</code> 被定义为关键字参数。</p>
+<p>哇哦！说了这么多看起来可以简单概括为一点：函数的参数可以有名称或位置。也就是说这其中稍许的不同取决于是函数定义还是函数调用。可以对用位置形参定义的函数传递关键字实参，反过来也可行！如果还想进一步了解请查看 <a href="http://docs.python.org/tutorial/controlflow.html#more-on-defining-functions" target="_blank" rel="external">Python 文档</a>。</p>
+<h3 id="6-内嵌函数"><a href="#6-内嵌函数" class="headerlink" title="6. 内嵌函数"></a>6. 内嵌函数</h3><p>Python 允许创建内嵌函数。即可以在函数内部声明函数，并且所有的作用域和生命周期规则仍然适用。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span><span class="function"><span class="keyword">def</span> <span class="title">outer</span><span class="params">()</span>:</span></div><div class="line"><span class="meta">... </span>    x = <span class="number">1</span></div><div class="line"><span class="meta">... </span>    <span class="function"><span class="keyword">def</span> <span class="title">inner</span><span class="params">()</span>:</span></div><div class="line"><span class="meta">... </span>        <span class="keyword">print</span> x <span class="comment"># 1</span></div><div class="line"><span class="meta">... </span>    inner() <span class="comment"># 2</span></div><div class="line">...</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>outer()</div><div class="line"><span class="number">1</span></div></pre></td></tr></table></figure>
+<p>以上代码看起来有些复杂，但它仍是易于理解的。来看 <code>#1</code> —— Python 搜索局部变量 <code>x</code> 失败，然后在属于另一个函数的外层作用域里寻找。变量 <code>x</code> 是函数 <code>outer</code> 的局部变量，但函数 <code>inner</code> 仍然有外层作用域的访问权限（至少有读和修改的权限）。在 <code>#2</code> 处调用函数 <code>inner</code>。值得注意的是，<code>inner</code> 在此处也只是一个变量名，遵循 Python 的变量查找规则——Python 首先在 <code>outer</code> 的作用域查找并找到了局部变量 <code>inner</code>。</p>
+<h3 id="7-函数是-Python-中的一级对象"><a href="#7-函数是-Python-中的一级对象" class="headerlink" title="7. 函数是 Python 中的一级对象"></a>7. 函数是 Python 中的一级对象</h3><p>在 Python 中有个常识：函数和其他任何东西一样，都是对象。函数包含变量，它并不那么特殊。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span>issubclass(int, object) <span class="comment"># all objects in Python inherit from a common baseclass</span></div><div class="line"><span class="keyword">True</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span><span class="function"><span class="keyword">def</span> <span class="title">foo</span><span class="params">()</span>:</span></div><div class="line"><span class="meta">... </span>    <span class="keyword">pass</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>foo.__class__ <span class="comment"># 1</span></div><div class="line">&lt;type <span class="string">'function'</span>&gt;</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>issubclass(foo.__class__, object)</div><div class="line"><span class="keyword">True</span></div></pre></td></tr></table></figure>
+<p>也许你从未考虑过函数可以有属性——但是函数在 Python 中，和其他任何东西一样都是对象。（如果对此感觉困惑，稍后你会看到 Python 中的类也是对象，和其他任何东西一样！）也许这有点学术的感觉——在 Python 中函数只是常规的值，就像其他任意类型的值一样。这意味着可以将函数当做实参传递给函数，或者在函数中将函数作为返回值返回。如果你从未想过这样使用，请看下面的可执行代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span><span class="function"><span class="keyword">def</span> <span class="title">add</span><span class="params">(x, y)</span>:</span></div><div class="line"><span class="meta">... </span>    <span class="keyword">return</span> x + y</div><div class="line"><span class="meta">&gt;&gt;&gt; </span><span class="function"><span class="keyword">def</span> <span class="title">sub</span><span class="params">(x, y)</span>:</span></div><div class="line"><span class="meta">... </span>    <span class="keyword">return</span> x - y</div><div class="line"><span class="meta">&gt;&gt;&gt; </span><span class="function"><span class="keyword">def</span> <span class="title">apply</span><span class="params">(func, x, y)</span>:</span> <span class="comment"># 1</span></div><div class="line"><span class="meta">... </span>    <span class="keyword">return</span> func(x, y) <span class="comment"># 2</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>apply(add, <span class="number">2</span>, <span class="number">1</span>) <span class="comment"># 3</span></div><div class="line"><span class="number">3</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>apply(sub, <span class="number">2</span>, <span class="number">1</span>)</div><div class="line"><span class="number">1</span></div></pre></td></tr></table></figure>
+<p>这个示例对你来说应该不陌生——<code>add</code> 和 <code>sub</code> 是标准的 Python 函数，都是接受两个值并返回一个计算的值。在 <code>#1</code> 处可以看到变量接收一个就像其他普通变量一样的函数。在 <code>#2</code> 处调用了传递给 <code>apply</code> 的函数 <code>fun</code>——在 Python 中双括号是调用操作符，调用变量名包含的值。在 <code>#3</code> 处展示了在 Python 中把函数作为值传参并没有特别的语法——和其他变量一样，函数名就是变量标签。</p>
+<p>也许你之前见过这种写法—— Python 使用函数作为实参，常见的操作如：通过传递一个函数给 <code>key</code> 参数，来自定义使用内建函数 <code>sorted</code>。但是，将函数作为值返回会怎样？思考下面代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span><span class="function"><span class="keyword">def</span> <span class="title">outer</span><span class="params">()</span>:</span></div><div class="line"><span class="meta">... </span>    <span class="function"><span class="keyword">def</span> <span class="title">inner</span><span class="params">()</span>:</span></div><div class="line"><span class="meta">... </span>        <span class="keyword">print</span> <span class="string">"Inside inner"</span></div><div class="line"><span class="meta">... </span>    <span class="keyword">return</span> inner <span class="comment"># 1</span></div><div class="line">...</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>foo = outer() <span class="comment">#2</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>foo <span class="comment"># doctest:+ELLIPSIS</span></div><div class="line">&lt;function inner at <span class="number">0</span>x...&gt;</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>foo()</div><div class="line">Inside inner</div></pre></td></tr></table></figure>
+<p>这看起来也许有点怪异。在 <code>#1</code> 处返回一个其实是函数标签的变量 <code>inner</code>。也没有什么特殊语法——函数 <code>outer</code> 返回了并没有被调用的函数 <code>inner</code>。还记得变量的生命周期吗？每次调用函数 <code>outer</code> 的时候，函数 <code>inner</code> 会被重新定义，但是如果函数 <code>ouer</code> 没有返回 <code>inner</code>，当 <code>inner</code> 超出 <code>outer</code> 的作用域，<code>inner</code> 的生命周期将结束。</p>
+<p>在 <code>#2</code> 处将获得返回值即函数 <code>inner</code>，并赋值给新变量 <code>foo</code>。可以看到如果鉴定 <code>foo</code>，它确实包含函数 <code>inner</code>，通过使用调用操作符（双括号，还记得吗？）来调用它。虽然看起来可能有点怪异，但是目前为止并没有什么很难理解的，对吧？hold 住，因为接下来会更怪异！</p>
+<h3 id="8-闭包"><a href="#8-闭包" class="headerlink" title="8. 闭包"></a>8. 闭包</h3><p>先不着急看闭包的定义，让我们从一段示例代码开始。如果将上一个示例稍微修改下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span><span class="function"><span class="keyword">def</span> <span class="title">outer</span><span class="params">()</span>:</span></div><div class="line"><span class="meta">... </span>    x = <span class="number">1</span></div><div class="line"><span class="meta">... </span>    <span class="function"><span class="keyword">def</span> <span class="title">inner</span><span class="params">()</span>:</span></div><div class="line"><span class="meta">... </span>        <span class="keyword">print</span> x <span class="comment"># 1</span></div><div class="line"><span class="meta">... </span>    <span class="keyword">return</span> inner</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>foo = outer()</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>foo.func_closure <span class="comment"># doctest: +ELLIPSIS</span></div><div class="line">(&lt;cell at <span class="number">0</span>x...: int object at <span class="number">0</span>x...&gt;,)</div></pre></td></tr></table></figure>
+<p>从上一个示例可以看到，<code>inner</code> 是 <code>outer</code> 返回的一个函数，存储在变量 <code>foo</code> 里然后用 <code>foo()</code> 来调用。但是它能运行吗？先来思考一下作用域规则。</p>
+<p>Python 中一切都按作用域规则运行—— <code>x</code> 是函数 <code>outer</code> 中的一个局部变量，当函数 <code>inner</code> 在 <code>#1</code> 处打印 <code>x</code> 时，Python 在 <code>inner</code> 中搜索局部变量但是没有找到，然后在外层作用域即函数 <code>outer</code> 中搜索找到了变量 <code>x</code>。</p>
+<p>但如果从变量的生命周期角度来看应该如何呢？变量 <code>x</code> 对函数 <code>outer</code> 来说是局部变量，即只有当 <code>outer</code> 运行时它才存在。只有当 <code>outer</code> 返回后才能调用 <code>inner</code>，所以依据 Python 运行机制，在调用 <code>inner</code> 时 <code>x</code> 就应该不存在了，那么这里应该有某种运行错误出现。</p>
+<p>结果并不是如此，返回的 <code>inner</code> 函数正常运行。Python 支持一种名为函数闭包的特性，意味着 在非全局作用域定义的 <code>inner</code> 函数在定义时记得外层命名空间是怎样的。<code>inner</code> 函数包含了外层作用域变量，通过查看它的 <code>func_closure</code> 属性可以看出这种函数闭包特性。</p>
+<p>记住——每次调用函数 <code>outer</code> 时，函数 <code>inner</code> 都会被重新定义。此时 <code>x</code> 的值没有变化，所以返回的每个 <code>inner</code> 函数和其它的 <code>inner</code> 函数运行结果相同，但是如果稍做一点修改呢？</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span><span class="function"><span class="keyword">def</span> <span class="title">outer</span><span class="params">(x)</span>:</span></div><div class="line"><span class="meta">... </span>    <span class="function"><span class="keyword">def</span> <span class="title">inner</span><span class="params">()</span>:</span></div><div class="line"><span class="meta">... </span>        <span class="keyword">print</span> x <span class="comment"># 1</span></div><div class="line"><span class="meta">... </span>    <span class="keyword">return</span> inner</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>print1 = outer(<span class="number">1</span>)</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>print2 = outer(<span class="number">2</span>)</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>print1()</div><div class="line"><span class="number">1</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>print2()</div><div class="line"><span class="number">2</span></div></pre></td></tr></table></figure>
+<p>从这个示例可以看到闭包——函数记住其外层作用域的事实——可以用来构建本质上有一个硬编码参数的自定义函数。虽然没有直接给 <code>inner</code> 函数传参 1 或 2，但构建了能“记住”该打印什么数的 <code>inner</code> 函数自定义版本。</p>
+<p>闭包是强大的技术——在某些方面来看可能感觉它有点像面向对象技术：<code>outer</code> 作为 <code>inner</code> 的构造函数，有一个类似私有变量的 <code>x</code>。闭包的作用不胜枚举——如果你熟悉 Python中 <code>sorted</code> 函数的参数 <code>key</code>，也许你已经写过 <code>lambda</code> 函数通过第二项而非第一项来排序一些列表。也可以写一个 <code>itemgetter</code> 函数，接收一个用于检索的索引并返回一个函数，然后就能恰当的传递给 <code>key</code> 参数了。</p>
+<p>但是这么用闭包太没意思了！让我们再次从头开始，写一个装饰器。</p>
+<h3 id="9-装饰器"><a href="#9-装饰器" class="headerlink" title="9. 装饰器"></a>9. 装饰器</h3><p>装饰器其实就是一个有函数作为参数并返回一个替换函数的可执行函数。让我们从简单的开始，直到能写出实用的装饰器。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span><span class="function"><span class="keyword">def</span> <span class="title">outer</span><span class="params">(some_func)</span>:</span></div><div class="line"><span class="meta">... </span>    <span class="function"><span class="keyword">def</span> <span class="title">inner</span><span class="params">()</span>:</span></div><div class="line"><span class="meta">... </span>        <span class="keyword">print</span> <span class="string">"before some_func"</span></div><div class="line"><span class="meta">... </span>        ret = some_func() <span class="comment"># 1</span></div><div class="line"><span class="meta">... </span>        <span class="keyword">return</span> ret + <span class="number">1</span></div><div class="line"><span class="meta">... </span>    <span class="keyword">return</span> inner</div><div class="line"><span class="meta">&gt;&gt;&gt; </span><span class="function"><span class="keyword">def</span> <span class="title">foo</span><span class="params">()</span>:</span></div><div class="line"><span class="meta">... </span>    <span class="keyword">return</span> <span class="number">1</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>decorated = outer(foo) <span class="comment"># 2</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>decorated()</div><div class="line">before some_func</div><div class="line"><span class="number">2</span></div></pre></td></tr></table></figure>
+<p>请仔细看这个装饰器示例。首先，定义了一个带单个参数 <code>some_func</code> 的名为 <code>outer</code> 的函数。然后在 <code>outer</code> 内部定义了一个内嵌函数 <code>inner</code>。<code>inner</code> 函数将打印一行字符串然后调用 <code>some_func</code>，并在 <code>#1</code> 处获取其返回值。在每次 <code>outer</code> 被调用时，<code>some_func</code> 的值可能都会不同，但不论 <code>some_func</code> 是什么函数，都将调用它。最后，<code>inner</code> 返回 <code>some_func()</code> 的返回值加 1。在 <code>#2</code> 处可以看到，当调用赋值给 <code>decorated</code> 的返回函数时，得到的是一行文本输出和返回值 2，而非期望的调用 <code>foo</code> 的返回值 1。</p>
+<p>我们可以说变量 <code>decorated</code> 是 <code>foo</code> 的装饰版——即 <code>foo</code> 加上一些东西。事实上，如果写了一个实用的装饰器，可能会想用装饰版来代替 <code>foo</code>，这样就总能得到“附带其他东西”的 <code>foo</code> 版本。用不着学习任何新的语法，通过将包含函数的变量重新赋值就能轻松做到这一点：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span>foo = outer(foo)</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>foo <span class="comment"># doctest: +ELLIPSIS</span></div><div class="line">&lt;function inner at <span class="number">0</span>x...&gt;</div></pre></td></tr></table></figure>
+<p>现在任意调用 <code>foo()</code> 都不会得到原来的 <code>foo</code>，而是新的装饰器版！明白了吗？来写一个更实用的装饰器。</p>
+<p>想象一个提供坐标对象的库。它们可能主要由一对对的 <code>x</code>、<code>y</code>坐标组成。遗憾的是坐标对象不支持数学运算，并且我们也无法修改源码。然而我们需要做很多数学运算，所以要构造能够接收两个坐标对象的 <code>add</code> 和 <code>sub</code> 函数，并且做适当的数学运算。这些函数很容易实现（为方便演示，提供一个简单的 <code>Coordinate</code> 类）。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span><span class="class"><span class="keyword">class</span> <span class="title">Coordinate</span><span class="params">(object)</span>:</span></div><div class="line"><span class="meta">... </span>    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, x, y)</span>:</span></div><div class="line"><span class="meta">... </span>        self.x = x</div><div class="line"><span class="meta">... </span>        self.y = y</div><div class="line"><span class="meta">... </span>    <span class="function"><span class="keyword">def</span> <span class="title">__repr__</span><span class="params">(self)</span>:</span></div><div class="line"><span class="meta">... </span>        <span class="keyword">return</span> <span class="string">"Coord: "</span> + str(self.__dict__)</div><div class="line"><span class="meta">&gt;&gt;&gt; </span><span class="function"><span class="keyword">def</span> <span class="title">add</span><span class="params">(a, b)</span>:</span></div><div class="line"><span class="meta">... </span>    <span class="keyword">return</span> Coordinate(a.x + b.x, a.y + b.y)</div><div class="line"><span class="meta">&gt;&gt;&gt; </span><span class="function"><span class="keyword">def</span> <span class="title">sub</span><span class="params">(a, b)</span>:</span></div><div class="line"><span class="meta">... </span>    <span class="keyword">return</span> Coordinate(a.x - b.x, a.y - b.y)</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>one = Coordinate(<span class="number">100</span>, <span class="number">200</span>)</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>two = Coordinate(<span class="number">300</span>, <span class="number">200</span>)</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>add(one, two)</div><div class="line">Coord: &#123;<span class="string">'y'</span>: <span class="number">400</span>, <span class="string">'x'</span>: <span class="number">400</span>&#125;</div></pre></td></tr></table></figure>
+<p>但是如果 <code>add</code> 和 <code>sub</code> 函数必须有边界检测功能呢？也许只能对正坐标进行加或减，并且返回值也限制为正坐标。如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span>one = Coordinate(<span class="number">100</span>, <span class="number">200</span>)</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>two = Coordinate(<span class="number">300</span>, <span class="number">200</span>)</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>three = Coordinate(<span class="number">-100</span>, <span class="number">-100</span>)</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>sub(one, two)</div><div class="line">Coord: &#123;<span class="string">'y'</span>: <span class="number">0</span>, <span class="string">'x'</span>: <span class="number">-200</span>&#125;</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>add(one, three)</div><div class="line">Coord: &#123;<span class="string">'y'</span>: <span class="number">100</span>, <span class="string">'x'</span>: <span class="number">0</span>&#125;</div></pre></td></tr></table></figure>
+<p>但我们希望在不修改 <code>one</code>、<code>two</code> 和 <code>three</code>的基础上，<code>one</code> 和 <code>two</code> 的差值为 <code>{x: 0, y: 0}</code>，<code>one</code> 和 <code>three</code> 的和为 <code>{x: 100, y: 200}</code>。接下来用一个边界检测装饰器来实现这一点，而不用对每个函数里的输入参数和返回值添加边界检测。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span><span class="function"><span class="keyword">def</span> <span class="title">wrapper</span><span class="params">(func)</span>:</span></div><div class="line"><span class="meta">... </span>    <span class="function"><span class="keyword">def</span> <span class="title">checker</span><span class="params">(a, b)</span>:</span> <span class="comment"># 1</span></div><div class="line"><span class="meta">... </span>        <span class="keyword">if</span> a.x &lt; <span class="number">0</span> <span class="keyword">or</span> a.y &lt; <span class="number">0</span>:</div><div class="line"><span class="meta">... </span>            a = Coordinate(a.x <span class="keyword">if</span> a.x &gt; <span class="number">0</span> <span class="keyword">else</span> <span class="number">0</span>, a.y <span class="keyword">if</span> a.y &gt; <span class="number">0</span> <span class="keyword">else</span> <span class="number">0</span>)</div><div class="line"><span class="meta">... </span>        <span class="keyword">if</span> b.x &lt; <span class="number">0</span> <span class="keyword">or</span> b.y &lt; <span class="number">0</span>:</div><div class="line"><span class="meta">... </span>            b = Coordinate(b.x <span class="keyword">if</span> b.x &gt; <span class="number">0</span> <span class="keyword">else</span> <span class="number">0</span>, b.y <span class="keyword">if</span> b.y &gt; <span class="number">0</span> <span class="keyword">else</span> <span class="number">0</span>)</div><div class="line"><span class="meta">... </span>        ret = func(a, b)</div><div class="line"><span class="meta">... </span>        <span class="keyword">if</span> ret.x &lt; <span class="number">0</span> <span class="keyword">or</span> ret.y &lt; <span class="number">0</span>:</div><div class="line"><span class="meta">... </span>            ret = Coordinate(ret.x <span class="keyword">if</span> ret.x &gt; <span class="number">0</span> <span class="keyword">else</span> <span class="number">0</span>, ret.y <span class="keyword">if</span> ret.y &gt; <span class="number">0</span> <span class="keyword">else</span> <span class="number">0</span>)</div><div class="line"><span class="meta">... </span>        <span class="keyword">return</span> ret</div><div class="line"><span class="meta">... </span>    <span class="keyword">return</span> checker</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>add = wrapper(add)</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>sub = wrapper(sub)</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>sub(one, two)</div><div class="line">Coord: &#123;<span class="string">'y'</span>: <span class="number">0</span>, <span class="string">'x'</span>: <span class="number">0</span>&#125;</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>add(one, three)</div><div class="line">Coord: &#123;<span class="string">'y'</span>: <span class="number">200</span>, <span class="string">'x'</span>: <span class="number">100</span>&#125;</div></pre></td></tr></table></figure>
+<p>装饰器和之前一样正常运行——返回了一个修改版函数，但在这次示例中通过检测和修正输入参数和返回值，将任何负值的 <code>x</code> 或 <code>y</code> 用 <code>0</code> 来代替，实现了上面的需求。</p>
+<p>是否这么做是见仁见智的，它让代码更加简洁：通过将边界检测从函数本身分离，使用装饰器包装它们，并应用到所有需要的函数。可替换的方案是：在每个数学运算函数返回前，对每个输入参数和输出结果调用一个函数，不可否认，就对函数应用边界检测的代码量而言，使用装饰器至少是较少重复的。事实上，如果要装饰的函数是我们自己实现的，可以使装饰器应用得更明确一点。</p>
+<h3 id="10-函数装饰器-符号的应用"><a href="#10-函数装饰器-符号的应用" class="headerlink" title="10. 函数装饰器 @ 符号的应用"></a>10. 函数装饰器 @ 符号的应用</h3><p>Python 2.4 通过在函数定义前添加一个装饰器名和 @ 符号，来实现对函数的包装。在上面代码示例中，用了一个包装的函数来替换包含函数的变量来实现了装饰函数。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span>add = wrapper(add)</div></pre></td></tr></table></figure>
+<p>这种模式可以随时用来包装任意函数。但是如果定义了一个函数，可以用 @ 符号来装饰函数，如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span>@wrapper</div><div class="line"><span class="meta">... </span><span class="function"><span class="keyword">def</span> <span class="title">add</span><span class="params">(a, b)</span>:</span></div><div class="line"><span class="meta">... </span>    <span class="keyword">return</span> Coordinate(a.x + b.x, a.y + b.y)</div></pre></td></tr></table></figure>
+<p>值得注意的是，这种方式和简单的使用 <code>wrapper</code> 函数的返回值来替换原始变量的做法没有什么不同—— Python 只是添加了一些语法糖来使之看起来更加明确。</p>
+<p>使用装饰器很简单！虽说写类似 <code>staticmethod</code> 或者 <code>classmethod</code> 的实用装饰器比较难，但用起来仅仅需要在函数前添加 <code>@装饰器名</code> 即可！</p>
+<h3 id="11-args-和-kwargs"><a href="#11-args-和-kwargs" class="headerlink" title="11. args 和 *kwargs"></a>11. <em>args 和 *</em>kwargs</h3><p>上面我们写了一个实用的装饰器，但它是硬编码的，只适用于特定类型的函数——带有两个参数的函数。内部函数 <code>checker</code> 接收两个参数，然后继续将参数传给闭包中的函数。如果我们想要一个能适用任何函数的装饰器呢？让我们来实现一个为每次被装饰函数的调用添加一个计数器的装饰器，但不改变被装饰函数。这意味着这个装饰器必须接收它所装饰的任何函数的调用信息，并且在调用这些函数时将传递给该装饰器的任何参数都传递给它们。</p>
+<p>碰巧，Python 对这种特性提供了语法支持。请务必阅读 <a href="http://docs.python.org/tutorial/controlflow.html#arbitrary-argument-lists" target="_blank" rel="external">Python Tutorial</a> 以了解更多，但在定义函数时使用 <code>*</code> 的用法意味着任何传递给函数的额外位置参数都是以 <code>*</code> 开头的。如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span><span class="function"><span class="keyword">def</span> <span class="title">one</span><span class="params">(*args)</span>:</span></div><div class="line"><span class="meta">... </span>    <span class="keyword">print</span> args <span class="comment"># 1</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>one()</div><div class="line">()</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>one(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>)</div><div class="line">(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>)</div><div class="line"><span class="meta">&gt;&gt;&gt; </span><span class="function"><span class="keyword">def</span> <span class="title">two</span><span class="params">(x, y, *args)</span>:</span> <span class="comment"># 2</span></div><div class="line"><span class="meta">... </span>    <span class="keyword">print</span> x, y, args</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>two(<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>)</div><div class="line">a b (<span class="string">'c'</span>,)</div></pre></td></tr></table></figure>
+<p>第一个函数 <code>one</code> 简单的打印了传给它的任何位置参数（如果有）。在 <code>#1</code> 处可以看到，在函数内部只是简单的用到了变量 <code>args</code> —— <code>*args</code> 只在定义函数时用来表示位置参数将会保存在变量 <code>args</code> 中。Python 也允许指定一些变量，并捕获任何在 <code>args</code> 里的额外参数，如 <code>#2</code> 处所示。</p>
+<p><code>*</code> 符号也可以用在函数调用时，在这里它也有类似的意义。在调用函数时，以 <code>*</code> 开头的变量表示该变量内容需被取出用做位置参数。再举例如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span><span class="function"><span class="keyword">def</span> <span class="title">add</span><span class="params">(x, y)</span>:</span></div><div class="line"><span class="meta">... </span>    <span class="keyword">return</span> x + y</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>lst = [<span class="number">1</span>,<span class="number">2</span>]</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>add(lst[<span class="number">0</span>], lst[<span class="number">1</span>]) <span class="comment"># 1</span></div><div class="line"><span class="number">3</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>add(*lst) <span class="comment"># 2</span></div><div class="line"><span class="number">3</span></div></pre></td></tr></table></figure>
+<p>在 #1 处的代码和 #2 处的作用相同——可以手动做的事情，在 #2 处 Python 帮我们自动处理了。这看起来不错，<code>*args</code> 可以表示在调用函数时从迭代器中取出位置参数， 也可以表示在定义函数时接收额外的位置参数。</p>
+<p>接下来介绍稍微复杂一点的用来表示字典和键值对的 <code>**</code>，就像 <code>*</code> 用来表示迭代器和位置参数。很简单吧？</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span><span class="function"><span class="keyword">def</span> <span class="title">foo</span><span class="params">(**kwargs)</span>:</span></div><div class="line"><span class="meta">... </span>    <span class="keyword">print</span> kwargs</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>foo()</div><div class="line">&#123;&#125;</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>foo(x=<span class="number">1</span>, y=<span class="number">2</span>)</div><div class="line">&#123;<span class="string">'y'</span>: <span class="number">2</span>, <span class="string">'x'</span>: <span class="number">1</span>&#125;</div></pre></td></tr></table></figure>
+<p>当定义一个函数时，使用 <code>**kwargs</code> 来表示所有未捕获的关键字参数将会被存储在字典 <code>kwargs</code> 中。此前 <code>args</code> 和 <code>kwargs</code> 都不是 Python 中语法的一部分，但在函数定义时使用这两个变量名是一种惯例。和 <code>*</code> 的使用一样，可以在函数调用和定义时使用 <code>**</code>。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span>dct = &#123;<span class="string">'x'</span>: <span class="number">1</span>, <span class="string">'y'</span>: <span class="number">2</span>&#125;</div><div class="line"><span class="meta">&gt;&gt;&gt; </span><span class="function"><span class="keyword">def</span> <span class="title">bar</span><span class="params">(x, y)</span>:</span></div><div class="line"><span class="meta">... </span>    <span class="keyword">return</span> x + y</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>bar(**dct)</div><div class="line"><span class="number">3</span></div></pre></td></tr></table></figure>
+<h3 id="12-更通用的装饰器"><a href="#12-更通用的装饰器" class="headerlink" title="12. 更通用的装饰器"></a>12. 更通用的装饰器</h3><p>用学到的新知识，可以写一个记录函数参数的装饰器。为简单起见，仅打印到标准输出：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span><span class="function"><span class="keyword">def</span> <span class="title">logger</span><span class="params">(func)</span>:</span></div><div class="line"><span class="meta">... </span>    <span class="function"><span class="keyword">def</span> <span class="title">inner</span><span class="params">(*args, **kwargs)</span>:</span> <span class="comment">#1</span></div><div class="line"><span class="meta">... </span>        <span class="keyword">print</span> <span class="string">"Arguments were: %s, %s"</span> % (args, kwargs)</div><div class="line"><span class="meta">... </span>        <span class="keyword">return</span> func(*args, **kwargs) <span class="comment">#2</span></div><div class="line"><span class="meta">... </span>    <span class="keyword">return</span> inner</div></pre></td></tr></table></figure>
+<p>注意在 <code>#1</code> 处函数 <code>inner</code> 接收任意数量和任意类型的参数，然后在 <code>#2</code> 处将他们传递给被包装的函数。这样一来我们可以包装或装饰任意函数，而不用管它的签名。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span>@logger</div><div class="line"><span class="meta">... </span><span class="function"><span class="keyword">def</span> <span class="title">foo1</span><span class="params">(x, y=<span class="number">1</span>)</span>:</span></div><div class="line"><span class="meta">... </span>    <span class="keyword">return</span> x * y</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>@logger</div><div class="line"><span class="meta">... </span><span class="function"><span class="keyword">def</span> <span class="title">foo2</span><span class="params">()</span>:</span></div><div class="line"><span class="meta">... </span>    <span class="keyword">return</span> <span class="number">2</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>foo1(<span class="number">5</span>, <span class="number">4</span>)</div><div class="line">Arguments were: (<span class="number">5</span>, <span class="number">4</span>), &#123;&#125;</div><div class="line"><span class="number">20</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>foo1(<span class="number">1</span>)</div><div class="line">Arguments were: (<span class="number">1</span>,), &#123;&#125;</div><div class="line"><span class="number">1</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>foo2()</div><div class="line">Arguments were: (), &#123;&#125;</div><div class="line"><span class="number">2</span></div></pre></td></tr></table></figure>
+<p>每一个函数的调用会有一行日志输出和预期的返回值。</p>
+<h3 id="再聊装饰器"><a href="#再聊装饰器" class="headerlink" title="再聊装饰器"></a>再聊装饰器</h3><p>如果你一直看到了最后一个实例，祝贺你，你已经理解了装饰器！你可以用新掌握的知识做更多的事了。</p>
+<p>你也许考虑需要进一步的学习：<a href="http://www.artima.com/weblogs/viewpost.jsp?thread=240808" target="_blank" rel="external">Bruce Eckel 有一篇很赞的关于装饰器文章</a>，他使用了对象而非函数来实现了装饰器。你会发现 OOP 代码比纯函数版的可读性更好。Bruce 还有一篇后续文章 <a href="http://www.artima.com/weblogs/viewpost.jsp?thread=240845" target="_blank" rel="external">providing arguments to decorators</a>，用对象实现装饰器也许比用函数实现更简单。最后，你可以去研究一下内建包装函数 <a href="http://docs.python.org/dev/library/functools.html" target="_blank" rel="external">functools</a>，它是一个在装饰器中用来修改替换函数签名的装饰器，使得这些函数更像是被装饰的函数。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/翻译/" rel="tag">#翻译</a>
+          
+            <a href="/tags/Python/" rel="tag">#Python</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/01/12/Gulp-简介及入门/" rel="next" title="Gulp 简介及入门">
+                <i class="fa fa-chevron-left"></i> Gulp 简介及入门
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/06/10/《Web-全栈工程师的自我修养》思维导图/" rel="prev" title="《Web 全栈工程师的自我修养》思维导图">
+                《Web 全栈工程师的自我修养》思维导图 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/05/10/【译】简单-12-步理解-Python-装饰器/"
+           data-title="【译】简单 12 步理解 Python 装饰器" data-url="https://seven88.github.io/2016/05/10/【译】简单-12-步理解-Python-装饰器/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="https://avatars2.githubusercontent.com/u/4360240?v=3&s=460"
+               alt="Seven" />
+          <p class="site-author-name" itemprop="name">Seven</p>
+          <p class="site-description motion-element" itemprop="description">Done is better than perfect.</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">7</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-函数"><span class="nav-number">1.</span> <span class="nav-text">1. 函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-作用域"><span class="nav-number">2.</span> <span class="nav-text">2. 作用域</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-变量解析规则"><span class="nav-number">3.</span> <span class="nav-text">3. 变量解析规则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-变量生命周期"><span class="nav-number">4.</span> <span class="nav-text">4. 变量生命周期</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-函数的实参和形参"><span class="nav-number">5.</span> <span class="nav-text">5. 函数的实参和形参</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-内嵌函数"><span class="nav-number">6.</span> <span class="nav-text">6. 内嵌函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-函数是-Python-中的一级对象"><span class="nav-number">7.</span> <span class="nav-text">7. 函数是 Python 中的一级对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-闭包"><span class="nav-number">8.</span> <span class="nav-text">8. 闭包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-装饰器"><span class="nav-number">9.</span> <span class="nav-text">9. 装饰器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-函数装饰器-符号的应用"><span class="nav-number">10.</span> <span class="nav-text">10. 函数装饰器 @ 符号的应用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#11-args-和-kwargs"><span class="nav-number">11.</span> <span class="nav-text">11. args 和 *kwargs</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#12-更通用的装饰器"><span class="nav-number">12.</span> <span class="nav-text">12. 更通用的装饰器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#再聊装饰器"><span class="nav-number">13.</span> <span class="nav-text">再聊装饰器</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Seven</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"seven88"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("oJRP3RjRJDwSSWHXSI4elGVS-gzGzoHsz", "3izRC0LlBacexNM3MSqnJWol");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

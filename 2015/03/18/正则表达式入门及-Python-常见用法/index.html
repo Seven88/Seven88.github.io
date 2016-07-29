@@ -1,0 +1,1094 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Python,正则表达式," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="什么是正则表达式正则表达式是由字符和特殊符号组成的字符串，用来匹配符合某个句法规则的字符串。
+为什么要用正则表达式对于一些简单的字符串查找，可以使用字符串匹配方法来实现。比如检测一个字符串是否以 &amp;#39;abc&amp;#39; 开头，用 Python 中的字符串方法 startswith 即可。但对于一些复杂的规则，比如检测一个字符串是否是一个 email 地址，用字符串匹配检查等方法当然也能实现，但">
+<meta property="og:type" content="article">
+<meta property="og:title" content="正则表达式入门及 Python 常见用法">
+<meta property="og:url" content="https://seven88.github.io/2015/03/18/正则表达式入门及-Python-常见用法/index.html">
+<meta property="og:site_name" content="Seven's Notes">
+<meta property="og:description" content="什么是正则表达式正则表达式是由字符和特殊符号组成的字符串，用来匹配符合某个句法规则的字符串。
+为什么要用正则表达式对于一些简单的字符串查找，可以使用字符串匹配方法来实现。比如检测一个字符串是否以 &amp;#39;abc&amp;#39; 开头，用 Python 中的字符串方法 startswith 即可。但对于一些复杂的规则，比如检测一个字符串是否是一个 email 地址，用字符串匹配检查等方法当然也能实现，但">
+<meta property="og:updated_time" content="2016-07-29T03:58:41.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="正则表达式入门及 Python 常见用法">
+<meta name="twitter:description" content="什么是正则表达式正则表达式是由字符和特殊符号组成的字符串，用来匹配符合某个句法规则的字符串。
+为什么要用正则表达式对于一些简单的字符串查找，可以使用字符串匹配方法来实现。比如检测一个字符串是否以 &amp;#39;abc&amp;#39; 开头，用 Python 中的字符串方法 startswith 即可。但对于一些复杂的规则，比如检测一个字符串是否是一个 email 地址，用字符串匹配检查等方法当然也能实现，但">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="https://seven88.github.io/2015/03/18/正则表达式入门及-Python-常见用法/"/>
+
+  <title> 正则表达式入门及 Python 常见用法 | Seven's Notes </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="//s6.cnzz.com/stat.php?id=1259657369&web_id=1259657369" type="text/javascript"></script>
+  </div>
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Seven's Notes</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                正则表达式入门及 Python 常见用法
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-03-18T20:20:41+08:00" content="2015-03-18">
+              2015-03-18
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/03/18/正则表达式入门及-Python-常见用法/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/03/18/正则表达式入门及-Python-常见用法/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2015/03/18/正则表达式入门及-Python-常见用法/" class="leancloud_visitors" data-flag-title="正则表达式入门及 Python 常见用法">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="什么是正则表达式"><a href="#什么是正则表达式" class="headerlink" title="什么是正则表达式"></a>什么是正则表达式</h2><p>正则表达式是由字符和特殊符号组成的字符串，用来匹配符合某个句法规则的字符串。</p>
+<h2 id="为什么要用正则表达式"><a href="#为什么要用正则表达式" class="headerlink" title="为什么要用正则表达式"></a>为什么要用正则表达式</h2><p>对于一些简单的字符串查找，可以使用字符串匹配方法来实现。比如检测一个字符串是否以 <code>&#39;abc&#39;</code> 开头，用 Python 中的字符串方法 <code>startswith</code> 即可。但对于一些复杂的规则，比如检测一个字符串是否是一个 email 地址，用字符串匹配检查等方法当然也能实现，但是会很麻烦，用正则表达式就简单很多。此外，在大数据处理、网页爬取等方面，正则表达式有着广泛的应用。</p>
+<h2 id="正则表达式怎么写"><a href="#正则表达式怎么写" class="headerlink" title="正则表达式怎么写"></a>正则表达式怎么写</h2><p>首先来介绍组成正则表达式最常用的字符和符号，如下表：</p>
+<table>
+<thead>
+<tr>
+<th>字符</th>
+<th>说明</th>
+<th>正则表达式示例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>str</td>
+<td>匹配字符串的值</td>
+<td>hello</td>
+</tr>
+<tr>
+<td>re1&#124;re2</td>
+<td>匹配正则表达式 re1 或者 re2</td>
+<td>hello&#124;hi</td>
+</tr>
+<tr>
+<td>.</td>
+<td>匹配任意字符（换行符除外）</td>
+<td>b.b</td>
+</tr>
+<tr>
+<td>^</td>
+<td>匹配字符串的开始</td>
+<td>^hello</td>
+</tr>
+<tr>
+<td>$</td>
+<td>匹配字符串结尾</td>
+<td>world$</td>
+</tr>
+<tr>
+<td>*</td>
+<td>匹配前面出现的正则表达式零次或者多次</td>
+<td>[a-z0-9]*</td>
+</tr>
+<tr>
+<td>+</td>
+<td>匹配前面出现的正则表达式一次或者多次</td>
+<td>[a-z]+\.com</td>
+</tr>
+<tr>
+<td>?</td>
+<td>匹配前面出现的正则表达式零次或者一次</td>
+<td>goo？</td>
+</tr>
+<tr>
+<td>{N}</td>
+<td>匹配前面出现的正则表达式 N 次</td>
+<td>[a-z]{3}</td>
+</tr>
+<tr>
+<td>{M,N}</td>
+<td>匹配重复出现 M 到 N 次的正则表达式</td>
+<td>[0-9]{3,5}</td>
+</tr>
+<tr>
+<td>[…]</td>
+<td>匹配字符组里出现的任意一个字符。特殊字符仅有反斜线 \ 保持特殊含义，用于转义字符。其它特殊字符如星号、加号、各种括号等均作为普通字符。</td>
+<td>[aoe]</td>
+</tr>
+<tr>
+<td>[..x-y..]</td>
+<td>匹配从字符 x 到 y 中的任意一个字符</td>
+<td>[A-Za-z], [0-9]</td>
+</tr>
+<tr>
+<td>[^..]</td>
+<td>不匹配此字符集中出现的任何一个字符，包括某一范围的字符</td>
+<td>[^aoe], [^A-Za-z]</td>
+</tr>
+<tr>
+<td>(…)</td>
+<td>匹配封闭括号中正则表达式，并保存为子组</td>
+<td>([0-9]{3})?, f(oo&#124;u)bar</td>
+</tr>
+<tr>
+<td>\d</td>
+<td>匹配任意数字，和 [0-9] 一样 （\D 为反义，匹配非数字）</td>
+<td>str\d</td>
+</tr>
+<tr>
+<td>\w</td>
+<td>匹配任意数字、字母字符，和 [A-Za-z0-9_] 一样 （\W 为反义）</td>
+<td>abc\w</td>
+</tr>
+<tr>
+<td>\s</td>
+<td>匹配任意空白符，和 [\n\r\t\v\f] 相同 （\S 为反义）</td>
+<td>end\s</td>
+</tr>
+<tr>
+<td>\b</td>
+<td>匹配一个单词边界，也就是指单词和空格间的位置 \B 为反义）</td>
+<td>hi\b</td>
+</tr>
+<tr>
+<td>\nn</td>
+<td>匹配已保存的子组</td>
+<td>price:\16</td>
+</tr>
+<tr>
+<td>\c</td>
+<td>匹配特殊字符c</td>
+<td>\., \\, \*</td>
+</tr>
+<tr>
+<td>\A(\Z)</td>
+<td>匹配字符串的起始（结束）</td>
+<td>\ADear, End\Z</td>
+</tr>
+</tbody>
+</table>
+<a id="more"></a>
+<h3 id="用管道符-匹配多个正则表达式模式"><a href="#用管道符-匹配多个正则表达式模式" class="headerlink" title="用管道符 | 匹配多个正则表达式模式"></a>用管道符 <code>|</code> 匹配多个正则表达式模式</h3><p>使用管道符可以灵活的匹配不止一个字符串。</p>
+<table>
+<thead>
+<tr>
+<th>正则表达式</th>
+<th>匹配的字符串</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>here&#124;there</td>
+<td>here, there</td>
+</tr>
+<tr>
+<td>com&#124;cn</td>
+<td>com, cn</td>
+</tr>
+<tr>
+<td>bat&#124;bet&#124;bit</td>
+<td>bat, bet, bit</td>
+</tr>
+</tbody>
+</table>
+<h3 id="匹配任意单一字符"><a href="#匹配任意单一字符" class="headerlink" title="匹配任意单一字符 ."></a>匹配任意单一字符 <code>.</code></h3><p>使用 <code>.</code> 符合，可以匹配除换行符外的任意一个字符。注意，匹配 <code>.</code> 本身，需用 <code>\.</code> 来转义。</p>
+<table>
+<thead>
+<tr>
+<th>正则表达式</th>
+<th>匹配的字符串</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>f.c</td>
+<td>f 和 c 之间可以是任意字符，如fac, f8c</td>
+</tr>
+<tr>
+<td>..</td>
+<td>任意两个字符</td>
+</tr>
+</tbody>
+</table>
+<h3 id="从字符结尾或者单词边界开始匹配-b-B"><a href="#从字符结尾或者单词边界开始匹配-b-B" class="headerlink" title="从字符结尾或者单词边界开始匹配 ^ $ \b \B"></a>从字符结尾或者单词边界开始匹配 <code>^ $ \b \B</code></h3><p>用 <code>^</code> 和 <code>$</code> 从字符串的开头或者结尾来匹配的情况：</p>
+<table>
+<thead>
+<tr>
+<th>正则表达式</th>
+<th>匹配的字符串</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>^Hi</td>
+<td>任意以 Hi 开头的字符串</td>
+</tr>
+<tr>
+<td>bye$</td>
+<td>任意以 bye 结尾的字符串</td>
+</tr>
+<tr>
+<td>^Good luck$</td>
+<td>仅匹配 <code>Good luck</code> 字符串</td>
+</tr>
+</tbody>
+</table>
+<p>使用 <code>\b</code> 和 <code>\B</code> 匹配单词边界的示例：</p>
+<table>
+<thead>
+<tr>
+<th>正则表达式</th>
+<th>匹配的字符串</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>\bthe</td>
+<td>以 the 开头的字符串</td>
+</tr>
+<tr>
+<td>\bthe\b</td>
+<td>仅匹配 the</td>
+</tr>
+<tr>
+<td>\Bthe</td>
+<td>任意保护 the 但不以 the 开头的单词，如 athe</td>
+</tr>
+</tbody>
+</table>
+<h3 id="字符类"><a href="#字符类" class="headerlink" title="字符类 []"></a>字符类 <code>[]</code></h3><p>匹配某些特定的字符，使用 <code>[]</code>。</p>
+<table>
+<thead>
+<tr>
+<th>正则表达式</th>
+<th>匹配的字符串</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>b[aei]t</td>
+<td>bat, bet, bit</td>
+</tr>
+<tr>
+<td>[a-z]_[0-9]</td>
+<td>首字符为小写字母，第二个字符是 <code>_</code>，第三个字符为数字的字符串</td>
+</tr>
+</tbody>
+</table>
+<h3 id="指定范围-和否定"><a href="#指定范围-和否定" class="headerlink" title="指定范围 - 和否定 ^"></a>指定范围 <code>-</code> 和否定 <code>^</code></h3><p>在方括号中使用 <code>-</code> 表示指定字符范围。方括号中第一个字符为 <code>^</code> 表示不匹配指定字符集里的任意字符。</p>
+<table>
+<thead>
+<tr>
+<th>正则表达式</th>
+<th>匹配的字符串</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>x[0-9]</td>
+<td>第一个字符为 <code>x</code>，第二个字符为任意数字</td>
+</tr>
+<tr>
+<td>[^a-z]</td>
+<td>一个不为小写字母的字符</td>
+</tr>
+<tr>
+<td>^\t\n</td>
+<td>除 TAB 符和换行符外的任意一个字符</td>
+</tr>
+<tr>
+<td>“-a</td>
+<td>ASCII 码中按顺序从 <code>&quot;</code> 到 <code>a</code> 的任意一个字符</td>
+</tr>
+</tbody>
+</table>
+<h3 id="重复匹配"><a href="#重复匹配" class="headerlink" title="重复匹配"></a>重复匹配</h3><table>
+<thead>
+<tr>
+<th>正则表达式</th>
+<th>匹配的字符串</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0?[1-9]</td>
+<td>1~9中任意数字，前面可能还有一个 0</td>
+</tr>
+<tr>
+<td>&lt;/?[^&gt;]+&gt;</td>
+<td>html 标签（没验证是否有效）</td>
+</tr>
+</tbody>
+</table>
+<p>[[0-9]{8,10} ] 8到10位数字 |</p>
+<h3 id="特殊字符"><a href="#特殊字符" class="headerlink" title="特殊字符"></a>特殊字符</h3><p>前面提到的一些特殊字符可以表示字符集和，如 <code>\d</code> 表示 <code>0~9</code>。来看几组示例：</p>
+<table>
+<thead>
+<tr>
+<th>正则表达式</th>
+<th>匹配的字符串</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>\w+\d+</td>
+<td>一个由字母、数字或 <code>_</code> 组成的字符串，结尾是一个或多个数字</td>
+</tr>
+<tr>
+<td>137\d{8}</td>
+<td>137 开头的手机号码</td>
+</tr>
+<tr>
+<td>^.+@[^.].*\.[a-z]{2,10}$</td>
+<td>email 地址</td>
+</tr>
+</tbody>
+</table>
+<h3 id="用-建组"><a href="#用-建组" class="headerlink" title="用 () 建组"></a>用 <code>()</code> 建组</h3><p>有时候除了匹配检查字符串是否符合某个规则，还想再匹配成功时取出特定字符，就需要使用 <code>()</code> 来实现了。</p>
+<p>圆括号在正则表达式中使用可以实现以下功能：</p>
+<ul>
+<li>对正则表达式进行分组</li>
+<li>匹配子组</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>正则表达式</th>
+<th>匹配的字符串</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>\d+(\.\d*)?</td>
+<td>表示简单的浮点型</td>
+</tr>
+<tr>
+<td>(Mr?s?\.)?[A-z][a-z]* [ A-za-z-]+</td>
+<td>英文名和姓</td>
+</tr>
+</tbody>
+</table>
+<h2 id="Python-中正则表达式常用方法"><a href="#Python-中正则表达式常用方法" class="headerlink" title="Python 中正则表达式常用方法"></a>Python 中正则表达式常用方法</h2><h3 id="re-模块"><a href="#re-模块" class="headerlink" title="re 模块"></a>re 模块</h3><p>Python 中使用正则表达式，需要用到 <code>re</code> 模块。下面介绍该模块常见的一些方法。</p>
+<h3 id="re-match-pattern-string-flags-0"><a href="#re-match-pattern-string-flags-0" class="headerlink" title="re.match(pattern, string, flags=0)"></a>re.match(pattern, string, flags=0)</h3><p>用正则表达式 <code>pattern</code> 匹配字符串 <code>string</code>，<code>flags</code> 为可选标识符。<code>flags</code> 可选值为：</p>
+<table>
+<thead>
+<tr>
+<th>flags 值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>re.I</td>
+<td>忽略大小写</td>
+</tr>
+<tr>
+<td>re.L</td>
+<td>‘\w’, ‘\W’, ‘\b’, ‘\B’, ‘\s’, ‘\S’ 的使用与当前位置有关</td>
+</tr>
+<tr>
+<td>re.M</td>
+<td>使 ‘^’, ‘$’ 分别匹配字符串和行的开始和结束，如果不指定则只匹配字符串的</td>
+</tr>
+<tr>
+<td>re.S</td>
+<td>使 <code>.</code> 匹配任何东西，包括一个换行；如果不指定，则不匹配换行</td>
+</tr>
+<tr>
+<td>re.U</td>
+<td>使 ‘\w’, ‘\W’, ‘\b’, ‘\B’, ‘\d’, ‘\D’, ‘\s’, ‘\S’ 依赖于unicode字符属性数据库</td>
+</tr>
+<tr>
+<td>re.X</td>
+<td>使空格（除了转义字符代表的空格），和 <code>#</code> 不作为正则表达式的一部分，这样写出的正则表达式更加优美，还可以加 <code>#</code> 注释</td>
+</tr>
+</tbody>
+</table>
+<p><code>match</code> 方法会从<strong>字符串开头</strong>开始匹配，如果匹配成功，返回一个匹配对象，失败则返回 <code>None</code>。匹配对象可以使用 <code>group()</code> 方法来显示成功的匹配。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span>m = re.match(<span class="string">'a[a-z]'</span>, <span class="string">'abcd'</span>)</div><div class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">if</span> m <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:</div><div class="line"><span class="meta">... </span>    m.group()</div><div class="line"><span class="string">'ab'</span></div></pre></td></tr></table></figure>
+<h3 id="re-search-pattern-string-flags-0"><a href="#re-search-pattern-string-flags-0" class="headerlink" title="re.search(pattern, string, flags=0)"></a>re.search(pattern, string, flags=0)</h3><p><code>search</code> 方法的参数和 <code>match</code> 相同，区别在于 <code>search</code> 会匹配字符串中任意位置。如果匹配成功，返回一个匹配对象，失败则返回 <code>None</code>。</p>
+<p>来看两个例子：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span>m = re.search(<span class="string">'f[oae]+'</span>, <span class="string">'somefoo'</span>)</div><div class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">if</span> m <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:</div><div class="line"><span class="meta">... </span>    m.group()</div><div class="line"><span class="string">'foo'</span></div></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span>m = re.match(<span class="string">'f[oae]+'</span>, <span class="string">'somefoo'</span>)</div><div class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">if</span> m <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:   <span class="comment"># 此时 m 为 None</span></div><div class="line"><span class="meta">... </span>    m.group()</div></pre></td></tr></table></figure>
+<h3 id="子组的使用"><a href="#子组的使用" class="headerlink" title="子组的使用"></a>子组的使用</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span>m = re.match(<span class="string">'(\w\w\w)-(\d\d\d)'</span>, <span class="string">'abc-123'</span>)  <span class="comment"># 用 () 进行了分组</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">if</span> m <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:</div><div class="line"><span class="meta">... </span>    m.group()   <span class="comment"># 所有匹配的部分</span></div><div class="line"><span class="string">'abc-123'</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>m.group(<span class="number">1</span>)  <span class="comment"># 匹配的子组1</span></div><div class="line"><span class="string">'abc'</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>m.group(<span class="number">2</span>)  <span class="comment"># 匹配的子组2</span></div><div class="line"><span class="string">'123'</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>m.groups()  <span class="comment"># 匹配的所有子组</span></div><div class="line">(<span class="string">'abc'</span>, <span class="string">'123'</span>)</div></pre></td></tr></table></figure>
+<p>当有匹配分组时，可以使用 <code>groups</code> 方法获取一个包含所有匹配子组的元组。</p>
+<p>子组还可以嵌套使用：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span>m = re.match(<span class="string">'(a(b))'</span>, <span class="string">'ab'</span>)</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>m.group()</div><div class="line"><span class="string">'ab'</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>m.group(<span class="number">1</span>)</div><div class="line"><span class="string">'ab'</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>m.group(<span class="number">2</span>)</div><div class="line"><span class="string">'b'</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>m.groups()</div><div class="line">(<span class="string">'ab'</span>, <span class="string">'b'</span>)</div></pre></td></tr></table></figure>
+<h3 id="re-findall-pattern-string-flags-0"><a href="#re-findall-pattern-string-flags-0" class="headerlink" title="re.findall(pattern, string, flags=0)"></a>re.findall(pattern, string, flags=0)</h3><p>参数同 <code>search</code>。<code>findall</code> 返回所有匹配成功的列表，如无匹配，返回空列表。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span>re.findall(<span class="string">'er'</span>, <span class="string">'there is peter'</span>)</div><div class="line">[<span class="string">'er'</span>, <span class="string">'er'</span>]</div></pre></td></tr></table></figure>
+<h3 id="re-sub-pattern-repl-string-count-0-flags-0"><a href="#re-sub-pattern-repl-string-count-0-flags-0" class="headerlink" title="re.sub(pattern, repl, string, count=0, flags=0)"></a>re.sub(pattern, repl, string, count=0, flags=0)</h3><p>用正则表达式 <code>pattern</code> 匹配字符串 <code>string</code>，匹配成功后用 <code>repl</code> 进行替换。<code>count</code> 为最大替换次数，0 表示全部替换。<code>flags</code> 为可选标识符。返回替换后的字符串。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span>re.sub(<span class="string">'X'</span>, <span class="string">'10'</span>, <span class="string">'X * X == X ** 2'</span>)</div><div class="line"><span class="string">'10 * 10 == 10 ** 2'</span></div></pre></td></tr></table></figure>
+<p>另外还有一个 <code>re.subn</code> 方法，参数和 <code>sub</code> 相同，返回值不同，为一个元组：(‘替换后的字符串’, 替换的次数)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span>re.subn(<span class="string">'X'</span>, <span class="string">'10'</span>, <span class="string">'X * X == X ** 2'</span>)</div><div class="line">(<span class="string">'10 * 10 == 10 ** 2'</span>, <span class="number">3</span>)</div></pre></td></tr></table></figure>
+<h3 id="re-split-pattern-string-maxsplit-0-flags-0"><a href="#re-split-pattern-string-maxsplit-0-flags-0" class="headerlink" title="re.split(pattern, string, maxsplit=0, flags=0)"></a>re.split(pattern, string, maxsplit=0, flags=0)</h3><p>用正则表达式 <code>pattern</code> 分割 <code>string</code>，<code>maxsplit</code> 为最大分隔次数，0 表示全部分隔。<code>flags</code> 为可选标识符。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span>re.split(<span class="string">'\W+'</span>, <span class="string">'Words, words, words.'</span>)  <span class="comment"># 用非数字字母分割</span></div><div class="line">[<span class="string">'Words'</span>, <span class="string">'words'</span>, <span class="string">'words'</span>, <span class="string">''</span>]</div></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Python/" rel="tag">#Python</a>
+          
+            <a href="/tags/正则表达式/" rel="tag">#正则表达式</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/01/29/python-虚拟环境-virtualenv-的使用/" rel="next" title="python 虚拟环境 virtualenv 的使用">
+                <i class="fa fa-chevron-left"></i> python 虚拟环境 virtualenv 的使用
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/06/30/使用-IPython-的-autoreload-自动重新加载/" rel="prev" title="使用 IPython 的 autoreload 自动重新加载">
+                使用 IPython 的 autoreload 自动重新加载 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2015/03/18/正则表达式入门及-Python-常见用法/"
+           data-title="正则表达式入门及 Python 常见用法" data-url="https://seven88.github.io/2015/03/18/正则表达式入门及-Python-常见用法/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="https://avatars2.githubusercontent.com/u/4360240?v=3&s=460"
+               alt="Seven" />
+          <p class="site-author-name" itemprop="name">Seven</p>
+          <p class="site-description motion-element" itemprop="description">Done is better than perfect.</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">7</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是正则表达式"><span class="nav-number">1.</span> <span class="nav-text">什么是正则表达式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么要用正则表达式"><span class="nav-number">2.</span> <span class="nav-text">为什么要用正则表达式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#正则表达式怎么写"><span class="nav-number">3.</span> <span class="nav-text">正则表达式怎么写</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#用管道符-匹配多个正则表达式模式"><span class="nav-number">3.1.</span> <span class="nav-text">用管道符 | 匹配多个正则表达式模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#匹配任意单一字符"><span class="nav-number">3.2.</span> <span class="nav-text">匹配任意单一字符 .</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#从字符结尾或者单词边界开始匹配-b-B"><span class="nav-number">3.3.</span> <span class="nav-text">从字符结尾或者单词边界开始匹配 ^ $ \b \B</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#字符类"><span class="nav-number">3.4.</span> <span class="nav-text">字符类 []</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#指定范围-和否定"><span class="nav-number">3.5.</span> <span class="nav-text">指定范围 - 和否定 ^</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#重复匹配"><span class="nav-number">3.6.</span> <span class="nav-text">重复匹配</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#特殊字符"><span class="nav-number">3.7.</span> <span class="nav-text">特殊字符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#用-建组"><span class="nav-number">3.8.</span> <span class="nav-text">用 () 建组</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Python-中正则表达式常用方法"><span class="nav-number">4.</span> <span class="nav-text">Python 中正则表达式常用方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#re-模块"><span class="nav-number">4.1.</span> <span class="nav-text">re 模块</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#re-match-pattern-string-flags-0"><span class="nav-number">4.2.</span> <span class="nav-text">re.match(pattern, string, flags=0)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#re-search-pattern-string-flags-0"><span class="nav-number">4.3.</span> <span class="nav-text">re.search(pattern, string, flags=0)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#子组的使用"><span class="nav-number">4.4.</span> <span class="nav-text">子组的使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#re-findall-pattern-string-flags-0"><span class="nav-number">4.5.</span> <span class="nav-text">re.findall(pattern, string, flags=0)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#re-sub-pattern-repl-string-count-0-flags-0"><span class="nav-number">4.6.</span> <span class="nav-text">re.sub(pattern, repl, string, count=0, flags=0)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#re-split-pattern-string-maxsplit-0-flags-0"><span class="nav-number">4.7.</span> <span class="nav-text">re.split(pattern, string, maxsplit=0, flags=0)</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Seven</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"seven88"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("oJRP3RjRJDwSSWHXSI4elGVS-gzGzoHsz", "3izRC0LlBacexNM3MSqnJWol");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>
