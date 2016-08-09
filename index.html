@@ -1058,6 +1058,123 @@
             
               
                 
+                <a class="post-title-link" href="/2015/02/09/Python-修改-pip-镜像源/" itemprop="url">
+                  Python 修改 pip 镜像源
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-02-09T19:17:20+08:00" content="2015-02-09">
+              2015-02-09
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/02/09/Python-修改-pip-镜像源/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/02/09/Python-修改-pip-镜像源/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2015/02/09/Python-修改-pip-镜像源/" class="leancloud_visitors" data-flag-title="Python 修改 pip 镜像源">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>使用 Python 的童鞋免不了需要 <code>pip</code> 来安装第三方依赖。但由于官方源在国外，下载很慢或者直接连接不上的情况时有发生。所以使用一个靠谱的镜像源就很有必要了。</p>
+<p>这里推荐使用豆瓣的镜像源，<a href="https://pypi.doubanio.com/simple/" target="_blank" rel="external">https://pypi.doubanio.com/simple/</a>。</p>
+<h3 id="还没有安装-pip？"><a href="#还没有安装-pip？" class="headerlink" title="还没有安装 pip？"></a>还没有安装 pip？</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 下载安装文件</span></div><div class="line">wget https://bootstrap.pypa.io/get-pip.py</div><div class="line"><span class="comment"># 执行安装</span></div><div class="line">sudo python get-pip.py</div></pre></td></tr></table></figure>
+<h3 id="pip-源修改"><a href="#pip-源修改" class="headerlink" title="pip 源修改"></a>pip 源修改</h3><p>修改源十分简单，只需配置用户目录下的 <code>.pip/pip.conf</code> 文件即可。步骤如下</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">cd</span> ~</div><div class="line">mkdir .pip</div><div class="line"><span class="built_in">cd</span> .pip</div><div class="line">touch pip.conf</div></pre></td></tr></table></figure>
+<p>接着在 <code>pip.conf</code> 写入以下内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">[global]</div><div class="line">index-url = https://pypi.doubanio.com/simple/</div></pre></td></tr></table></figure>
+<p>之后使用 <code>pip</code> 命令就会直接从指定的源安装了。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2015/01/29/python-虚拟环境-virtualenv-的使用/" itemprop="url">
                   python 虚拟环境 virtualenv 的使用
                 </a>
@@ -1198,7 +1315,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">7</span>
+              <span class="site-state-item-count">8</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
