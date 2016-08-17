@@ -81,3 +81,6 @@ leancloud_visitors:
   app_id: oJRP3RjRJDwSSWHXSI4elGVS-gzGzoHsz
   app_key: 3izRC0LlBacexNM3MSqnJWol
 
+search:
+  path: search.xml
+  field: post
