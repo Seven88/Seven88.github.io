@@ -1,333 +1,19 @@
-<!doctype html>
-
-
-
-  
-
-
-<html class="theme-next pisces use-motion">
-<head>
-  <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
-
-
-
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-
-
-
-
-
-
-
-
-
-
-
-
-  
-  
-  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
-
-
-
-
-  
-  
-  
-  
-
-  
-    
-    
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    
-    
-    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
-  
-
-
-
-
-
-
-<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
-
-<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
-
-
-  <meta name="keywords" content="翻译,Python," />
-
-
-
-
-
-
-
-
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
-
-
-
-
-
-
-<meta name="description" content="英文出处：Simeon Franklin校稿：伯乐在线 - 艾凌风
-好吧，我标题党了。作为 Python 教师，我发现理解装饰器是学生们从接触后就一直纠结的问题。那是因为装饰器确实难以理解！想弄明白装饰器，需要理解一些函数式编程概念，并且要对Python中函数定义和函数调用语法中的特性有所了解。使用装饰器非常简单（见步骤10），但是写装饰器却很复杂。
-虽然我没法让装饰器变得简单，但也许通过将问题进">
-<meta property="og:type" content="article">
-<meta property="og:title" content="【译】简单 12 步理解 Python 装饰器">
-<meta property="og:url" content="https://seven88.github.io/2016/05/10/【译】简单-12-步理解-Python-装饰器/index.html">
-<meta property="og:site_name" content="Seven's Notes">
-<meta property="og:description" content="英文出处：Simeon Franklin校稿：伯乐在线 - 艾凌风
-好吧，我标题党了。作为 Python 教师，我发现理解装饰器是学生们从接触后就一直纠结的问题。那是因为装饰器确实难以理解！想弄明白装饰器，需要理解一些函数式编程概念，并且要对Python中函数定义和函数调用语法中的特性有所了解。使用装饰器非常简单（见步骤10），但是写装饰器却很复杂。
-虽然我没法让装饰器变得简单，但也许通过将问题进">
-<meta property="og:updated_time" content="2016-07-29T03:58:41.000Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="【译】简单 12 步理解 Python 装饰器">
-<meta name="twitter:description" content="英文出处：Simeon Franklin校稿：伯乐在线 - 艾凌风
-好吧，我标题党了。作为 Python 教师，我发现理解装饰器是学生们从接触后就一直纠结的问题。那是因为装饰器确实难以理解！想弄明白装饰器，需要理解一些函数式编程概念，并且要对Python中函数定义和函数调用语法中的特性有所了解。使用装饰器非常简单（见步骤10），但是写装饰器却很复杂。
-虽然我没法让装饰器变得简单，但也许通过将问题进">
-
-
-
-<script type="text/javascript" id="hexo.configuration">
-  var NexT = window.NexT || {};
-  var CONFIG = {
-    scheme: 'Pisces',
-    sidebar: {"position":"left","display":"post"},
-    fancybox: true,
-    motion: true,
-    duoshuo: {
-      userId: 0,
-      author: '博主'
-    }
-  };
-</script>
-
-
-
-
-  <link rel="canonical" href="https://seven88.github.io/2016/05/10/【译】简单-12-步理解-Python-装饰器/"/>
-
-  <title> 【译】简单 12 步理解 Python 装饰器 | Seven's Notes </title>
-</head>
-
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
-
-  
-
-
-
-
-
-
-
-
-  <div style="display: none;">
-    <script src="//s6.cnzz.com/stat.php?id=1259657369&web_id=1259657369" type="text/javascript"></script>
-  </div>
-
-
-
-
-
+<?xml version="1.0" encoding="utf-8"?>
+<search>
   
   
     
-  
-
-  <div class="container one-collumn sidebar-position-left page-post-detail ">
-    <div class="headband"></div>
-
-    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-meta ">
-  
-
-  <div class="custom-logo-site-title">
-    <a href="/"  class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
-      <span class="site-title">Seven's Notes</span>
-      <span class="logo-line-after"><i></i></span>
-    </a>
-  </div>
-  <p class="site-subtitle"></p>
-</div>
-
-<div class="site-nav-toggle">
-  <button>
-    <span class="btn-bar"></span>
-    <span class="btn-bar"></span>
-    <span class="btn-bar"></span>
-  </button>
-</div>
-
-<nav class="site-nav">
-  
-
-  
-    <ul id="menu" class="menu">
-      
-        
-        <li class="menu-item menu-item-home">
-          <a href="/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
-            
-            首页
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-archives">
-          <a href="/archives" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
-            
-            归档
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-tags">
-          <a href="/tags" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
-            
-            标签
-          </a>
-        </li>
-      
-
-      
-        <li class="menu-item menu-item-search">
-          
-            <a href="#" class="popup-trigger">
-          
-            
-              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
-            
-            搜索
-          </a>
-        </li>
-      
-    </ul>
-  
-
-  
-    <div class="site-search">
-      
-  <div class="popup">
- <span class="search-icon fa fa-search"></span>
- <input type="text" id="local-search-input">
- <div id="local-search-result"></div>
- <span class="popup-btn-close">close</span>
-</div>
-
-
-    </div>
-  
-</nav>
-
- </div>
-    </header>
-
-    <main id="main" class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          <div id="content" class="content">
-            
-
-  <div id="posts" class="posts-expand">
+    <entry>
+      <title><![CDATA[《Web 全栈工程师的自我修养》思维导图]]></title>
+      <url>https://seven88.github.io/2016/06/10/%E3%80%8AWeb-%E5%85%A8%E6%A0%88%E5%B7%A5%E7%A8%8B%E5%B8%88%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB%E3%80%8B%E6%80%9D%E7%BB%B4%E5%AF%BC%E5%9B%BE/</url>
+      <content type="html"><![CDATA[<p><img src="/images/webfullstackmindnoe.png" alt="《Web 全栈工程师的自我修养》思维导图"></p>
+]]></content>
+    </entry>
     
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                【译】简单 12 步理解 Python 装饰器
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-05-10T17:56:35+08:00" content="2016-05-10">
-              2016-05-10
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/05/10/【译】简单-12-步理解-Python-装饰器/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/10/【译】简单-12-步理解-Python-装饰器/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-             <span id="/2016/05/10/【译】简单-12-步理解-Python-装饰器/" class="leancloud_visitors" data-flag-title="【译】简单 12 步理解 Python 装饰器">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        <p><strong>英文出处：<a href="http://simeonfranklin.com/blog/2012/jul/1/python-decorators-in-12-steps/" target="_blank" rel="external">Simeon Franklin</a></strong><br><strong>校稿：<a href="http://www.jobbole.com/members/hanxiaomax" target="_blank" rel="external">伯乐在线 - 艾凌风</a></strong></p>
+    <entry>
+      <title><![CDATA[【译】简单 12 步理解 Python 装饰器]]></title>
+      <url>https://seven88.github.io/2016/05/10/%E3%80%90%E8%AF%91%E3%80%91%E7%AE%80%E5%8D%95-12-%E6%AD%A5%E7%90%86%E8%A7%A3-Python-%E8%A3%85%E9%A5%B0%E5%99%A8/</url>
+      <content type="html"><![CDATA[<p><strong>英文出处：<a href="http://simeonfranklin.com/blog/2012/jul/1/python-decorators-in-12-steps/" target="_blank" rel="external">Simeon Franklin</a></strong><br><strong>校稿：<a href="http://www.jobbole.com/members/hanxiaomax" target="_blank" rel="external">伯乐在线 - 艾凌风</a></strong></p>
 <p>好吧，我标题党了。作为 Python 教师，我发现理解装饰器是学生们从接触后就一直纠结的问题。那是因为装饰器确实难以理解！想弄明白装饰器，需要理解一些函数式编程概念，并且要对Python中函数定义和函数调用语法中的特性有所了解。使用装饰器非常简单（见步骤10），但是写装饰器却很复杂。</p>
 <p>虽然我没法让装饰器变得简单，但也许通过将问题进行一步步的讲解，可以帮助你更容易理解装饰器。由于装饰器较为复杂，文章会比较长，请坚持住！我会尽量使每个步骤简单明了，这样如果你理解了各个步骤，就能理解装饰器的原理。本文假定你具备最基础的 Python 知识，另外本文对工作中大量使用 Python 的人将大有帮助。</p>
 <p>此外需要说明的是，本文中 Python 代码示例是用 <code>doctest</code> 模块来执行的。代码看起来像是交互式 Python 控制台会话（<code>&gt;&gt;&gt;</code> 和 <code>…</code> 表示 Python 语句，输出则另起一行）。偶然有以“doctest”开头的“奇怪”注释——那些只是 <code>doctest</code> 的指令，可以忽略。</p>
@@ -416,549 +102,507 @@
 <p>每一个函数的调用会有一行日志输出和预期的返回值。</p>
 <h3 id="再聊装饰器"><a href="#再聊装饰器" class="headerlink" title="再聊装饰器"></a>再聊装饰器</h3><p>如果你一直看到了最后一个实例，祝贺你，你已经理解了装饰器！你可以用新掌握的知识做更多的事了。</p>
 <p>你也许考虑需要进一步的学习：<a href="http://www.artima.com/weblogs/viewpost.jsp?thread=240808" target="_blank" rel="external">Bruce Eckel 有一篇很赞的关于装饰器文章</a>，他使用了对象而非函数来实现了装饰器。你会发现 OOP 代码比纯函数版的可读性更好。Bruce 还有一篇后续文章 <a href="http://www.artima.com/weblogs/viewpost.jsp?thread=240845" target="_blank" rel="external">providing arguments to decorators</a>，用对象实现装饰器也许比用函数实现更简单。最后，你可以去研究一下内建包装函数 <a href="http://docs.python.org/dev/library/functools.html" target="_blank" rel="external">functools</a>，它是一个在装饰器中用来修改替换函数签名的装饰器，使得这些函数更像是被装饰的函数。</p>
-
-      
-    </div>
-
-    <div>
-      
-        
-      
-    </div>
-
-    <div>
-      
-        
-
-      
-    </div>
-
-    <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/翻译/" rel="tag">#翻译</a>
-          
-            <a href="/tags/Python/" rel="tag">#Python</a>
-          
-        </div>
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2016/01/12/Gulp-简介及入门/" rel="next" title="Gulp 简介及入门">
-                <i class="fa fa-chevron-left"></i> Gulp 简介及入门
-              </a>
-            
-          </div>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/06/10/《Web-全栈工程师的自我修养》思维导图/" rel="prev" title="《Web 全栈工程师的自我修养》思维导图">
-                《Web 全栈工程师的自我修养》思维导图 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </article>
-
-
-
-    <div class="post-spread">
-      
-    </div>
-  </div>
-
-
-          </div>
-          
-
-
-          
-  <div class="comments" id="comments">
+]]></content>
+    </entry>
     
-      <div class="ds-thread" data-thread-key="2016/05/10/【译】简单-12-步理解-Python-装饰器/"
-           data-title="【译】简单 12 步理解 Python 装饰器" data-url="https://seven88.github.io/2016/05/10/【译】简单-12-步理解-Python-装饰器/">
-      </div>
+    <entry>
+      <title><![CDATA[Gulp 简介及入门]]></title>
+      <url>https://seven88.github.io/2016/01/12/Gulp-%E7%AE%80%E4%BB%8B%E5%8F%8A%E5%85%A5%E9%97%A8/</url>
+      <content type="html"><![CDATA[<h3 id="什么是-Gulp？"><a href="#什么是-Gulp？" class="headerlink" title="什么是 Gulp？"></a>什么是 Gulp？</h3><p>Gulp 是一款强大的基于 Node.js 的前端构建工具。</p>
+<h3 id="什么是前端构建？"><a href="#什么是前端构建？" class="headerlink" title="什么是前端构建？"></a>什么是前端构建？</h3><blockquote>
+<p>一句话：自动化。对于需要反复重复的任务，例如压缩（minification）、编译、单元测试、linting等，自动化工具可以减轻你的劳动，简化你的工作。(引用自：<a href="http://www.gruntjs.net/" target="_blank" rel="external">Grunt 官网</a>)</p>
+</blockquote>
+<h3 id="同类工具-Grunt-对比"><a href="#同类工具-Grunt-对比" class="headerlink" title="同类工具 Grunt 对比"></a>同类工具 Grunt 对比</h3><ul>
+<li>出道晚，人气更旺。<br> 目前 <a href="https://github.com/gulpjs/gulp" target="_blank" rel="external">Gulp 19k+ stars</a>，<a href="https://github.com/gruntjs/grunt" target="_blank" rel="external">Grunt 10k+ stars</a> on GitHub。</li>
+<li>比简单更简单。<br> Gulp 遵循代码优于配置策略，Grunt 的配置通常让人眼花缭乱;<br> Gulp 只有5个核心 API；<br> Gulp 的插件更纯粹，单一的功能，坚持一个插件只做一件事。</li>
+<li>核心设计基于Unix流的概念，通过管道连接，不需要写中间文件。</li>
+</ul>
+<h3 id="安装-Gulp"><a href="#安装-Gulp" class="headerlink" title="安装 Gulp"></a>安装 Gulp</h3><p><strong>安装 Node.js</strong>：<br>前往 <a href="https://nodejs.org/en/" target="_blank" rel="external">https://nodejs.org/</a>，Download，Install，Done！<br>npm (Node Package Manager) 会随着 Node.js 一起安装。</p>
+<p><strong>全局安装 Gulp：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install gulp -g</div></pre></td></tr></table></figure>
+<p><strong>项目根目录安装</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">npm install gulp --save-dev --registry=https://registry.npm.taobao.org/</div><div class="line">// 使用 --save-dev 会将 gulp 自动添加到 package.json 的 devDependencies</div><div class="line">// 使用淘宝源</div></pre></td></tr></table></figure>
+<p>(<em>package.json 是什么？<a href="https://docs.npmjs.com/files/package.json" target="_blank" rel="external">https://docs.npmjs.com/files/package.json</a></em>)</p>
+<a id="more"></a>
+<h3 id="安装Gulp插件"><a href="#安装Gulp插件" class="headerlink" title="安装Gulp插件"></a>安装Gulp插件</h3><p><strong>常用插件：</strong><br>sass的编译（<a href="https://github.com/sindresorhus/gulp-ruby-sass" target="_blank" rel="external">gulp-ruby-sass</a>）<br>压缩css（<a href="https://github.com/jonathanepollack/gulp-minify-css" target="_blank" rel="external">gulp-minify-css</a>）<br>压缩js代码（<a href="https://github.com/terinjokes/gulp-uglify" target="_blank" rel="external">gulp-uglify</a>）<br>压缩图片（<a href="https://github.com/sindresorhus/gulp-imagemin" target="_blank" rel="external">gulp-imagemin</a>）<br>图片缓存，只有图片替换了才压缩（<a href="https://github.com/jgable/gulp-cache" target="_blank" rel="external">gulp-cache</a>）<br>清除文件（<a href="https://www.npmjs.org/package/del" target="_blank" rel="external">del</a>）<br>编译html模板（<a href="https://github.com/zont/gulp-usemin" target="_blank" rel="external">gulp-usemin</a>）<br>顺序执行任务（<a href="https://github.com/OverZealous/run-sequence" target="_blank" rel="external">run-sequence</a>）<br>自动刷新页面（<a href="https://github.com/vohof/gulp-livereload" target="_blank" rel="external">gulp-livereload</a>）需浏览器插件配合使用: <a href="https://chrome.google.com/webstore/detail/livereload/jnihajbhpnppcggbcgedagnkighmdlei" target="_blank" rel="external">Chrome插件下载</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">// 单个安装</div><div class="line">npm install gulp-uglify --save-dev</div><div class="line">// 批量安装</div><div class="line">npm install gulp-ruby-sass gulp-minify-css gulp-uglify gulp-imagemin gulp-livereload gulp-cache del gulp-usemin run-sequence --save-dev</div></pre></td></tr></table></figure>
+<h3 id="加载插件"><a href="#加载插件" class="headerlink" title="加载插件"></a>加载插件</h3><p>在根目录创建 <code>gulpfile.js</code> ：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">var gulp = require(&apos;gulp&apos;),</div><div class="line">    uglify = require(&apos;gulp-uglify&apos;),</div><div class="line">    minifyCss = require(&apos;gulp-minify-css&apos;),</div><div class="line">    del = require(&apos;del&apos;),</div><div class="line">    usemin = require(&apos;gulp-usemin&apos;),</div><div class="line">    imagemin = require(&apos;gulp-imagemin&apos;),</div><div class="line">    cache = require(&apos;gulp-cache&apos;),</div><div class="line">    rev = require(&apos;gulp-rev&apos;),</div><div class="line">    runSequence = require(&apos;run-sequence&apos;),</div><div class="line">    livereload = require(&apos;gulp-livereload&apos;);</div></pre></td></tr></table></figure></p>
+<h3 id="创建任务"><a href="#创建任务" class="headerlink" title="创建任务"></a>创建任务</h3><p><strong>先看一下 <a href="https://github.com/gulpjs/gulp/blob/master/docs/API.md" target="_blank" rel="external">Gulp API</a></strong></p>
+<p><strong>继续 code:</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div></pre></td><td class="code"><pre><div class="line">// 压缩图片任务</div><div class="line">gulp.task(&apos;build-img&apos;, function() &#123;</div><div class="line">    return gulp.src(&apos;img/**/*.&#123;gif,jpeg,jpg,png&#125;&apos;)</div><div class="line">        .pipe(cache(imagemin(&#123;progressive: true&#125;)))</div><div class="line">        .pipe(gulp.dest(&apos;dist/img&apos;));</div><div class="line">&#125;);</div><div class="line"></div><div class="line">// deploy css</div><div class="line">gulp.task(&apos;deploy-css&apos;, function() &#123;</div><div class="line">    return gulp.src(&apos;dist/css/**/*.*&apos;)</div><div class="line">        .pipe(gulp.dest(&apos;../myapps/static/css/&apos;));</div><div class="line">&#125;);</div><div class="line"></div><div class="line">// 清除目录</div><div class="line">gulp.task(&apos;clean&apos;, function(cb) &#123;</div><div class="line">    return del([&apos;.tmp&apos;, &apos;dist&apos;], cb);</div><div class="line">&#125;);</div><div class="line"></div><div class="line">// 设置默认任务</div><div class="line">gulp.task(&apos;default&apos;, [&apos;clean&apos;], function() &#123;</div><div class="line">    // 依次执行任务</div><div class="line">    runSequence(&apos;task0&apos;, // task0 为任务名，比如上面的 build-img、clean</div><div class="line">                [&apos;task1-a&apos;, &apos;task1-b&apos;, &apos;task1-c&apos;],  // 并行执行的任务</div><div class="line">                &apos;task2&apos;,</div><div class="line">                function () &#123;</div><div class="line">                    // do sth after tasks done</div><div class="line">                &#125;);</div><div class="line">&#125;);</div><div class="line"></div><div class="line">// watch 任务</div><div class="line">gulp.task(&apos;watch&apos;, function() &#123;</div><div class="line">    // 监听</div><div class="line">    livereload.listen();</div><div class="line"></div><div class="line">    // 监听 img</div><div class="line">    gulp.watch(&apos;img/**/*.&#123;gif,jpeg,jpg,png&#125;&apos;, [&apos;build-img&apos;]);</div><div class="line"></div><div class="line">    // dist 目标有变动则执行系列任务后，自动刷新页面</div><div class="line">    gulp.watch(&apos;dist/**/*.*&apos;, function() &#123;</div><div class="line">        runSequence(&apos;deploy-css&apos;,</div><div class="line">                    &apos;deploy-img&apos;,</div><div class="line">                    ...,</div><div class="line">                    livereload.reload);</div><div class="line">    &#125;);</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<h3 id="执行任务"><a href="#执行任务" class="headerlink" title="执行任务"></a>执行任务</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">gulp</div><div class="line">// 等同于</div><div class="line">gulp default</div><div class="line"></div><div class="line">// 执行监听任务</div><div class="line">gulp watch</div></pre></td></tr></table></figure>
+<h3 id="结束"><a href="#结束" class="headerlink" title="结束"></a>结束</h3><p>更多详细内容请点击以上 gulp 及其插件链接。</p>
+]]></content>
+    </entry>
     
-  </div>
-
-
-        </div>
-        
-          
-  
-  <div class="sidebar-toggle">
-    <div class="sidebar-toggle-line-wrap">
-      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
-    </div>
-  </div>
-
-  <aside id="sidebar" class="sidebar">
-    <div class="sidebar-inner">
-
-      
-
-      
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
-
-      <section class="site-overview sidebar-panel ">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-          <img class="site-author-image" itemprop="image"
-               src="https://avatars2.githubusercontent.com/u/4360240?v=3&s=460"
-               alt="Seven" />
-          <p class="site-author-name" itemprop="name">Seven</p>
-          <p class="site-description motion-element" itemprop="description">Done is better than perfect.</p>
-        </div>
-        <nav class="site-state motion-element">
-          <div class="site-state-item site-state-posts">
-            <a href="/archives">
-              <span class="site-state-item-count">8</span>
-              <span class="site-state-item-name">日志</span>
-            </a>
-          </div>
-
-          
-
-          
-            <div class="site-state-item site-state-tags">
-              <a href="/tags">
-                <span class="site-state-item-count">7</span>
-                <span class="site-state-item-name">标签</span>
-              </a>
-            </div>
-          
-
-        </nav>
-
-        
-
-        <div class="links-of-author motion-element">
-          
-        </div>
-
-        
-        
-
-        
-        
-
-      </section>
-
-      
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-            
-              
-            
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-函数"><span class="nav-number">1.</span> <span class="nav-text">1. 函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-作用域"><span class="nav-number">2.</span> <span class="nav-text">2. 作用域</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-变量解析规则"><span class="nav-number">3.</span> <span class="nav-text">3. 变量解析规则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-变量生命周期"><span class="nav-number">4.</span> <span class="nav-text">4. 变量生命周期</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-函数的实参和形参"><span class="nav-number">5.</span> <span class="nav-text">5. 函数的实参和形参</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-内嵌函数"><span class="nav-number">6.</span> <span class="nav-text">6. 内嵌函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-函数是-Python-中的一级对象"><span class="nav-number">7.</span> <span class="nav-text">7. 函数是 Python 中的一级对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-闭包"><span class="nav-number">8.</span> <span class="nav-text">8. 闭包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-装饰器"><span class="nav-number">9.</span> <span class="nav-text">9. 装饰器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-函数装饰器-符号的应用"><span class="nav-number">10.</span> <span class="nav-text">10. 函数装饰器 @ 符号的应用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#11-args-和-kwargs"><span class="nav-number">11.</span> <span class="nav-text">11. args 和 *kwargs</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#12-更通用的装饰器"><span class="nav-number">12.</span> <span class="nav-text">12. 更通用的装饰器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#再聊装饰器"><span class="nav-number">13.</span> <span class="nav-text">再聊装饰器</span></a></li></ol></div>
-            
-          </div>
-        </section>
-      
-
-    </div>
-  </aside>
-
-
-        
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="footer-inner">
-        <div class="copyright" >
-  
-  &copy; 
-  <span itemprop="copyrightYear">2016</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">Seven</span>
-</div>
-
-<div class="powered-by">
-  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
-</div>
-
-<div class="theme-info">
-  主题 -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
-    NexT.Pisces
-  </a>
-</div>
-
-        
-
-        
-      </div>
-    </footer>
-
-    <div class="back-to-top">
-      <i class="fa fa-arrow-up"></i>
-    </div>
-  </div>
-
-  
-
-<script type="text/javascript">
-  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
-    window.Promise = null;
-  }
-</script>
-
-
-
-
-
-
-
-
-
-  
-
-
-
-  
-  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
-
-  
-  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
-
-  
-  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
-
-  
-  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
-
-  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
-
-
-
-  
-  
-
-
-  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
-
-  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
-
-
-
-  
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
-
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
-
-
-
-  
-
-  
+    <entry>
+      <title><![CDATA[【译】为什么Python中没有Switch/Case语句]]></title>
+      <url>https://seven88.github.io/2015/09/05/%E3%80%90%E8%AF%91%E3%80%91%E4%B8%BA%E4%BB%80%E4%B9%88Python%E4%B8%AD%E6%B2%A1%E6%9C%89Switch-Case%E8%AF%AD%E5%8F%A5/</url>
+      <content type="html"><![CDATA[<p><strong>英文出处：<a href="http://www.pydanny.com/why-doesnt-python-have-switch-case.html" target="_blank" rel="external">pydanny.com</a></strong><br><strong>校稿：<a href="http://www.jobbole.com/members/tangyouhua" target="_blank" rel="external">伯乐在线 - 唐尤华</a></strong></p>
+<p>不同于我用过的其它编程语言，Python 没有 switch / case 语句。为了实现它，我们可以使用字典映射：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">numbers_to_strings</span><span class="params">(argument)</span>:</span></div><div class="line">    switcher = &#123;</div><div class="line">        <span class="number">0</span>: <span class="string">"zero"</span>,</div><div class="line">        <span class="number">1</span>: <span class="string">"one"</span>,</div><div class="line">        <span class="number">2</span>: <span class="string">"two"</span>,</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> switcher.get(argument, <span class="string">"nothing"</span>)</div></pre></td></tr></table></figure>
+<p>这段代码在 JavaScript 中相当于：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span>(<span class="params">argument</span>)</span>&#123;</div><div class="line">    <span class="keyword">switch</span>(argument) &#123;</div><div class="line">        <span class="keyword">case</span> <span class="number">0</span>:</div><div class="line">            <span class="keyword">return</span> <span class="string">"zero"</span>;</div><div class="line">        <span class="keyword">case</span> <span class="number">1</span>:</div><div class="line">            <span class="keyword">return</span> <span class="string">"one"</span>;</div><div class="line">        <span class="keyword">case</span> <span class="number">2</span>:</div><div class="line">            <span class="keyword">return</span> <span class="string">"two"</span>;</div><div class="line">        <span class="keyword">default</span>:</div><div class="line">            <span class="keyword">return</span> <span class="string">"nothing"</span>;</div><div class="line">    &#125;;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>Python 代码通常比处理 case 的标准方法更为简短，也可以说它更难理解。当我初次使用 Python 时，感觉很奇怪并且心烦意乱。而随着时间的推移，在 switch 中使用字典的 key 来做标识符变得越来越习以为常。</p>
+<a id="more"></a>
+<h3 id="函数的字典映射"><a href="#函数的字典映射" class="headerlink" title="函数的字典映射"></a>函数的字典映射</h3><p>在 Python 中字典映射也可以包含函数或者 lambda 表达式：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">zero</span><span class="params">()</span>:</span></div><div class="line">    <span class="keyword">return</span> <span class="string">"zero"</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">one</span><span class="params">()</span>:</span></div><div class="line">    <span class="keyword">return</span> <span class="string">"one"</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">numbers_to_functions_to_strings</span><span class="params">(argument)</span>:</span></div><div class="line">    switcher = &#123;</div><div class="line">        <span class="number">0</span>: zero,</div><div class="line">        <span class="number">1</span>: one,</div><div class="line">        <span class="number">2</span>: <span class="keyword">lambda</span>: <span class="string">"two"</span>,</div><div class="line">    &#125;</div><div class="line">    <span class="comment"># Get the function from switcher dictionary</span></div><div class="line">    func = switcher.get(argument, <span class="keyword">lambda</span>: <span class="string">"nothing"</span>)</div><div class="line">    <span class="comment"># Execute the function</span></div><div class="line">    <span class="keyword">return</span> func()</div></pre></td></tr></table></figure>
+<p>虽然 zero 和 one 中的代码很简单，但是很多 Python 程序使用这样的字典映射来调度复杂的流程。</p>
+<h3 id="类的调度方法"><a href="#类的调度方法" class="headerlink" title="类的调度方法"></a>类的调度方法</h3><p>如果在一个类中，不确定要使用哪种方法，可以用一个调度方法在运行的时候来确定。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Switcher</span><span class="params">(object)</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">numbers_to_methods_to_strings</span><span class="params">(self, argument)</span>:</span></div><div class="line">        <span class="string">"""Dispatch method"""</span></div><div class="line">        <span class="comment"># prefix the method_name with 'number_' because method names</span></div><div class="line">        <span class="comment"># cannot begin with an integer.</span></div><div class="line">        method_name = <span class="string">'number_'</span> + str(argument)</div><div class="line">        <span class="comment"># Get the method from 'self'. Default to a lambda.</span></div><div class="line">        method = getattr(self, method_name, <span class="keyword">lambda</span>: <span class="string">"nothing"</span>)</div><div class="line">        <span class="comment"># Call the method as we return it</span></div><div class="line">        <span class="keyword">return</span> method()</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">number_0</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="keyword">return</span> <span class="string">"zero"</span></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">number_1</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="keyword">return</span> <span class="string">"one"</span></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">number_2</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="keyword">return</span> <span class="string">"two"</span></div></pre></td></tr></table></figure>
+<p>很灵活，对吧？</p>
+<h3 id="官方说明"><a href="#官方说明" class="headerlink" title="官方说明"></a>官方说明</h3><p><a href="https://docs.python.org/2/faq/design.html#why-isn-t-there-a-switch-or-case-statement-in-python" target="_blank" rel="external">官方的解释</a>说，</p>
+<blockquote>
+<p>用<code>if... elif... elif... else</code>序列很容易来实现 switch / case 语句。</p>
+</blockquote>
+<p>而且可以使用函数字典映射和类的调度方法。</p>
+<p>可以说官方的说明并没有解释什么，只是给出了解决方案。换句话说，没有回答为什么。我认为其实官方真正想说的是：“Python 不需要 switch / case 语句”。</p>
+<h3 id="真的是这样吗？"><a href="#真的是这样吗？" class="headerlink" title="真的是这样吗？"></a>真的是这样吗？</h3><p>是的。但是还有别的原因。我听牛人说过，在代码中 switch/case 语句真的很难调试。</p>
+<p>就我个人而言，我发现当运行到大量嵌套的用作代码分支映射的字典里，上述说法就站不住脚了。想想吧，一个超过100条语句的嵌套字典，和一个嵌套100个以上 case 的 switch/case 代码块一样，都是难以调试的。</p>
+<h3 id="字典映射运行更快？"><a href="#字典映射运行更快？" class="headerlink" title="字典映射运行更快？"></a>字典映射运行更快？</h3><p>Python 没有 case 语句，使用其它语言的衡量标准是没有意义的，因为在某种语言中运行更快并不意味着在另一种语言中也一样。让我们继续。</p>
+<h3 id="Python-实现方法的显著优点"><a href="#Python-实现方法的显著优点" class="headerlink" title="Python 实现方法的显著优点"></a>Python 实现方法的显著优点</h3><p>有时候我会遇到 Python 的实现方法比 switch/case 语句更好用的情况，例如在运行的时候，需要从映射里添加或者删除一些潜在的选项。每当这时，多年来使用字典映射和调度方法的实践让我受益匪浅。现在我觉得，我再也无法回到依赖 switch/case 语句的日子了。</p>
+<h3 id="结束语"><a href="#结束语" class="headerlink" title="结束语"></a>结束语</h3><p>Python 迫使我积累了很多映射的实践经验，对我来说是塞翁失马，焉知非福。没有 switch/case 语句可用的约束，促使我想到了可能不会用来开发的方法和主意。</p>
+<p>有意或无意中，Python 没有 switch/case 语句已成为一种社会建构，并让我成为一个更优秀的程序员。</p>
+<p>综上所述，所以我认为这种意外的社会构建解释比官方的“用这个来代替”的说明要好得多。</p>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[使用 IPython 的 autoreload 自动重新加载]]></title>
+      <url>https://seven88.github.io/2015/06/30/%E4%BD%BF%E7%94%A8-IPython-%E7%9A%84-autoreload-%E8%87%AA%E5%8A%A8%E9%87%8D%E6%96%B0%E5%8A%A0%E8%BD%BD/</url>
+      <content type="html"><![CDATA[<p><a href="http://ipython.org/" target="_blank" rel="external">IPython</a> 是极好用的 Python 交互 shell。</p>
+<p>先来看一个使用场景，运行 IPython：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">In [<span class="number">1</span>]: <span class="keyword">from</span> a.b imort c</div><div class="line">In [<span class="number">2</span>]: c()</div><div class="line">hello world  <span class="comment"># c 函数的功能 打印 hello world</span></div><div class="line"><span class="comment"># 这时修改了 c 函数，在 'hello world' 后面加一个 '!'</span></div><div class="line">In [<span class="number">3</span>]: c()</div><div class="line">hello world  <span class="comment"># 会发现并不是修改后的结果</span></div></pre></td></tr></table></figure>
+<p>通常做法是重启 shell，重新 import，这样当然可以，但我们可以优雅的使用 IPython 的 autoreload 来处理：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">In [<span class="number">1</span>]: <span class="keyword">from</span> a.b imort c</div><div class="line">In [<span class="number">2</span>]: c()</div><div class="line">hello world  <span class="comment"># c 函数的功能 打印 hello world</span></div><div class="line"><span class="comment"># 这时修改了 c 函数，在 'hello world' 后面加一个 '!'</span></div><div class="line">In [<span class="number">3</span>]: %load_ext autoreload</div><div class="line">In [<span class="number">4</span>]: %autoreload <span class="number">2</span></div><div class="line">In [<span class="number">5</span>]: c()</div><div class="line">hello world!  <span class="comment"># 自动重新加载了</span></div></pre></td></tr></table></figure>
+<p><code>%load_ext autoreload</code> + <code>%autoreload 2</code>，两步轻松实现自动加载，是不是很爽？</p>
+<p>参考文档：<br><a href="http://ipython.readthedocs.io/en/stable/config/extensions/autoreload.html" target="_blank" rel="external">http://ipython.readthedocs.io/en/stable/config/extensions/autoreload.html</a></p>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[正则表达式入门及 Python 常见用法]]></title>
+      <url>https://seven88.github.io/2015/03/18/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%85%A5%E9%97%A8%E5%8F%8A-Python-%E5%B8%B8%E8%A7%81%E7%94%A8%E6%B3%95/</url>
+      <content type="html"><![CDATA[<h2 id="什么是正则表达式"><a href="#什么是正则表达式" class="headerlink" title="什么是正则表达式"></a>什么是正则表达式</h2><p>正则表达式是由字符和特殊符号组成的字符串，用来匹配符合某个句法规则的字符串。</p>
+<h2 id="为什么要用正则表达式"><a href="#为什么要用正则表达式" class="headerlink" title="为什么要用正则表达式"></a>为什么要用正则表达式</h2><p>对于一些简单的字符串查找，可以使用字符串匹配方法来实现。比如检测一个字符串是否以 <code>&#39;abc&#39;</code> 开头，用 Python 中的字符串方法 <code>startswith</code> 即可。但对于一些复杂的规则，比如检测一个字符串是否是一个 email 地址，用字符串匹配检查等方法当然也能实现，但是会很麻烦，用正则表达式就简单很多。此外，在大数据处理、网页爬取等方面，正则表达式有着广泛的应用。</p>
+<h2 id="正则表达式怎么写"><a href="#正则表达式怎么写" class="headerlink" title="正则表达式怎么写"></a>正则表达式怎么写</h2><p>首先来介绍组成正则表达式最常用的字符和符号，如下表：</p>
+<table>
+<thead>
+<tr>
+<th>字符</th>
+<th>说明</th>
+<th>正则表达式示例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>str</td>
+<td>匹配字符串的值</td>
+<td>hello</td>
+</tr>
+<tr>
+<td>re1&#124;re2</td>
+<td>匹配正则表达式 re1 或者 re2</td>
+<td>hello&#124;hi</td>
+</tr>
+<tr>
+<td>.</td>
+<td>匹配任意字符（换行符除外）</td>
+<td>b.b</td>
+</tr>
+<tr>
+<td>^</td>
+<td>匹配字符串的开始</td>
+<td>^hello</td>
+</tr>
+<tr>
+<td>$</td>
+<td>匹配字符串结尾</td>
+<td>world$</td>
+</tr>
+<tr>
+<td>*</td>
+<td>匹配前面出现的正则表达式零次或者多次</td>
+<td>[a-z0-9]*</td>
+</tr>
+<tr>
+<td>+</td>
+<td>匹配前面出现的正则表达式一次或者多次</td>
+<td>[a-z]+\.com</td>
+</tr>
+<tr>
+<td>?</td>
+<td>匹配前面出现的正则表达式零次或者一次</td>
+<td>goo？</td>
+</tr>
+<tr>
+<td>{N}</td>
+<td>匹配前面出现的正则表达式 N 次</td>
+<td>[a-z]{3}</td>
+</tr>
+<tr>
+<td>{M,N}</td>
+<td>匹配重复出现 M 到 N 次的正则表达式</td>
+<td>[0-9]{3,5}</td>
+</tr>
+<tr>
+<td>[…]</td>
+<td>匹配字符组里出现的任意一个字符。特殊字符仅有反斜线 \ 保持特殊含义，用于转义字符。其它特殊字符如星号、加号、各种括号等均作为普通字符。</td>
+<td>[aoe]</td>
+</tr>
+<tr>
+<td>[..x-y..]</td>
+<td>匹配从字符 x 到 y 中的任意一个字符</td>
+<td>[A-Za-z], [0-9]</td>
+</tr>
+<tr>
+<td>[^..]</td>
+<td>不匹配此字符集中出现的任何一个字符，包括某一范围的字符</td>
+<td>[^aoe], [^A-Za-z]</td>
+</tr>
+<tr>
+<td>(…)</td>
+<td>匹配封闭括号中正则表达式，并保存为子组</td>
+<td>([0-9]{3})?, f(oo&#124;u)bar</td>
+</tr>
+<tr>
+<td>\d</td>
+<td>匹配任意数字，和 [0-9] 一样 （\D 为反义，匹配非数字）</td>
+<td>str\d</td>
+</tr>
+<tr>
+<td>\w</td>
+<td>匹配任意数字、字母字符，和 [A-Za-z0-9_] 一样 （\W 为反义）</td>
+<td>abc\w</td>
+</tr>
+<tr>
+<td>\s</td>
+<td>匹配任意空白符，和 [\n\r\t\v\f] 相同 （\S 为反义）</td>
+<td>end\s</td>
+</tr>
+<tr>
+<td>\b</td>
+<td>匹配一个单词边界，也就是指单词和空格间的位置 \B 为反义）</td>
+<td>hi\b</td>
+</tr>
+<tr>
+<td>\nn</td>
+<td>匹配已保存的子组</td>
+<td>price:\16</td>
+</tr>
+<tr>
+<td>\c</td>
+<td>匹配特殊字符c</td>
+<td>\., \\, \*</td>
+</tr>
+<tr>
+<td>\A(\Z)</td>
+<td>匹配字符串的起始（结束）</td>
+<td>\ADear, End\Z</td>
+</tr>
+</tbody>
+</table>
+<a id="more"></a>
+<h3 id="用管道符-匹配多个正则表达式模式"><a href="#用管道符-匹配多个正则表达式模式" class="headerlink" title="用管道符 | 匹配多个正则表达式模式"></a>用管道符 <code>|</code> 匹配多个正则表达式模式</h3><p>使用管道符可以灵活的匹配不止一个字符串。</p>
+<table>
+<thead>
+<tr>
+<th>正则表达式</th>
+<th>匹配的字符串</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>here&#124;there</td>
+<td>here, there</td>
+</tr>
+<tr>
+<td>com&#124;cn</td>
+<td>com, cn</td>
+</tr>
+<tr>
+<td>bat&#124;bet&#124;bit</td>
+<td>bat, bet, bit</td>
+</tr>
+</tbody>
+</table>
+<h3 id="匹配任意单一字符"><a href="#匹配任意单一字符" class="headerlink" title="匹配任意单一字符 ."></a>匹配任意单一字符 <code>.</code></h3><p>使用 <code>.</code> 符合，可以匹配除换行符外的任意一个字符。注意，匹配 <code>.</code> 本身，需用 <code>\.</code> 来转义。</p>
+<table>
+<thead>
+<tr>
+<th>正则表达式</th>
+<th>匹配的字符串</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>f.c</td>
+<td>f 和 c 之间可以是任意字符，如fac, f8c</td>
+</tr>
+<tr>
+<td>..</td>
+<td>任意两个字符</td>
+</tr>
+</tbody>
+</table>
+<h3 id="从字符结尾或者单词边界开始匹配-b-B"><a href="#从字符结尾或者单词边界开始匹配-b-B" class="headerlink" title="从字符结尾或者单词边界开始匹配 ^ $ \b \B"></a>从字符结尾或者单词边界开始匹配 <code>^ $ \b \B</code></h3><p>用 <code>^</code> 和 <code>$</code> 从字符串的开头或者结尾来匹配的情况：</p>
+<table>
+<thead>
+<tr>
+<th>正则表达式</th>
+<th>匹配的字符串</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>^Hi</td>
+<td>任意以 Hi 开头的字符串</td>
+</tr>
+<tr>
+<td>bye$</td>
+<td>任意以 bye 结尾的字符串</td>
+</tr>
+<tr>
+<td>^Good luck$</td>
+<td>仅匹配 <code>Good luck</code> 字符串</td>
+</tr>
+</tbody>
+</table>
+<p>使用 <code>\b</code> 和 <code>\B</code> 匹配单词边界的示例：</p>
+<table>
+<thead>
+<tr>
+<th>正则表达式</th>
+<th>匹配的字符串</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>\bthe</td>
+<td>以 the 开头的字符串</td>
+</tr>
+<tr>
+<td>\bthe\b</td>
+<td>仅匹配 the</td>
+</tr>
+<tr>
+<td>\Bthe</td>
+<td>任意保护 the 但不以 the 开头的单词，如 athe</td>
+</tr>
+</tbody>
+</table>
+<h3 id="字符类"><a href="#字符类" class="headerlink" title="字符类 []"></a>字符类 <code>[]</code></h3><p>匹配某些特定的字符，使用 <code>[]</code>。</p>
+<table>
+<thead>
+<tr>
+<th>正则表达式</th>
+<th>匹配的字符串</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>b[aei]t</td>
+<td>bat, bet, bit</td>
+</tr>
+<tr>
+<td>[a-z]_[0-9]</td>
+<td>首字符为小写字母，第二个字符是 <code>_</code>，第三个字符为数字的字符串</td>
+</tr>
+</tbody>
+</table>
+<h3 id="指定范围-和否定"><a href="#指定范围-和否定" class="headerlink" title="指定范围 - 和否定 ^"></a>指定范围 <code>-</code> 和否定 <code>^</code></h3><p>在方括号中使用 <code>-</code> 表示指定字符范围。方括号中第一个字符为 <code>^</code> 表示不匹配指定字符集里的任意字符。</p>
+<table>
+<thead>
+<tr>
+<th>正则表达式</th>
+<th>匹配的字符串</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>x[0-9]</td>
+<td>第一个字符为 <code>x</code>，第二个字符为任意数字</td>
+</tr>
+<tr>
+<td>[^a-z]</td>
+<td>一个不为小写字母的字符</td>
+</tr>
+<tr>
+<td>^\t\n</td>
+<td>除 TAB 符和换行符外的任意一个字符</td>
+</tr>
+<tr>
+<td>“-a</td>
+<td>ASCII 码中按顺序从 <code>&quot;</code> 到 <code>a</code> 的任意一个字符</td>
+</tr>
+</tbody>
+</table>
+<h3 id="重复匹配"><a href="#重复匹配" class="headerlink" title="重复匹配"></a>重复匹配</h3><table>
+<thead>
+<tr>
+<th>正则表达式</th>
+<th>匹配的字符串</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0?[1-9]</td>
+<td>1~9中任意数字，前面可能还有一个 0</td>
+</tr>
+<tr>
+<td>&lt;/?[^&gt;]+&gt;</td>
+<td>html 标签（没验证是否有效）</td>
+</tr>
+</tbody>
+</table>
+<p>[[0-9]{8,10} ] 8到10位数字 |</p>
+<h3 id="特殊字符"><a href="#特殊字符" class="headerlink" title="特殊字符"></a>特殊字符</h3><p>前面提到的一些特殊字符可以表示字符集和，如 <code>\d</code> 表示 <code>0~9</code>。来看几组示例：</p>
+<table>
+<thead>
+<tr>
+<th>正则表达式</th>
+<th>匹配的字符串</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>\w+\d+</td>
+<td>一个由字母、数字或 <code>_</code> 组成的字符串，结尾是一个或多个数字</td>
+</tr>
+<tr>
+<td>137\d{8}</td>
+<td>137 开头的手机号码</td>
+</tr>
+<tr>
+<td>^.+@[^.].*\.[a-z]{2,10}$</td>
+<td>email 地址</td>
+</tr>
+</tbody>
+</table>
+<h3 id="用-建组"><a href="#用-建组" class="headerlink" title="用 () 建组"></a>用 <code>()</code> 建组</h3><p>有时候除了匹配检查字符串是否符合某个规则，还想再匹配成功时取出特定字符，就需要使用 <code>()</code> 来实现了。</p>
+<p>圆括号在正则表达式中使用可以实现以下功能：</p>
+<ul>
+<li>对正则表达式进行分组</li>
+<li>匹配子组</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>正则表达式</th>
+<th>匹配的字符串</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>\d+(\.\d*)?</td>
+<td>表示简单的浮点型</td>
+</tr>
+<tr>
+<td>(Mr?s?\.)?[A-z][a-z]* [ A-za-z-]+</td>
+<td>英文名和姓</td>
+</tr>
+</tbody>
+</table>
+<h2 id="Python-中正则表达式常用方法"><a href="#Python-中正则表达式常用方法" class="headerlink" title="Python 中正则表达式常用方法"></a>Python 中正则表达式常用方法</h2><h3 id="re-模块"><a href="#re-模块" class="headerlink" title="re 模块"></a>re 模块</h3><p>Python 中使用正则表达式，需要用到 <code>re</code> 模块。下面介绍该模块常见的一些方法。</p>
+<h3 id="re-match-pattern-string-flags-0"><a href="#re-match-pattern-string-flags-0" class="headerlink" title="re.match(pattern, string, flags=0)"></a>re.match(pattern, string, flags=0)</h3><p>用正则表达式 <code>pattern</code> 匹配字符串 <code>string</code>，<code>flags</code> 为可选标识符。<code>flags</code> 可选值为：</p>
+<table>
+<thead>
+<tr>
+<th>flags 值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>re.I</td>
+<td>忽略大小写</td>
+</tr>
+<tr>
+<td>re.L</td>
+<td>‘\w’, ‘\W’, ‘\b’, ‘\B’, ‘\s’, ‘\S’ 的使用与当前位置有关</td>
+</tr>
+<tr>
+<td>re.M</td>
+<td>使 ‘^’, ‘$’ 分别匹配字符串和行的开始和结束，如果不指定则只匹配字符串的</td>
+</tr>
+<tr>
+<td>re.S</td>
+<td>使 <code>.</code> 匹配任何东西，包括一个换行；如果不指定，则不匹配换行</td>
+</tr>
+<tr>
+<td>re.U</td>
+<td>使 ‘\w’, ‘\W’, ‘\b’, ‘\B’, ‘\d’, ‘\D’, ‘\s’, ‘\S’ 依赖于unicode字符属性数据库</td>
+</tr>
+<tr>
+<td>re.X</td>
+<td>使空格（除了转义字符代表的空格），和 <code>#</code> 不作为正则表达式的一部分，这样写出的正则表达式更加优美，还可以加 <code>#</code> 注释</td>
+</tr>
+</tbody>
+</table>
+<p><code>match</code> 方法会从<strong>字符串开头</strong>开始匹配，如果匹配成功，返回一个匹配对象，失败则返回 <code>None</code>。匹配对象可以使用 <code>group()</code> 方法来显示成功的匹配。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span>m = re.match(<span class="string">'a[a-z]'</span>, <span class="string">'abcd'</span>)</div><div class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">if</span> m <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:</div><div class="line"><span class="meta">... </span>    m.group()</div><div class="line"><span class="string">'ab'</span></div></pre></td></tr></table></figure>
+<h3 id="re-search-pattern-string-flags-0"><a href="#re-search-pattern-string-flags-0" class="headerlink" title="re.search(pattern, string, flags=0)"></a>re.search(pattern, string, flags=0)</h3><p><code>search</code> 方法的参数和 <code>match</code> 相同，区别在于 <code>search</code> 会匹配字符串中任意位置。如果匹配成功，返回一个匹配对象，失败则返回 <code>None</code>。</p>
+<p>来看两个例子：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span>m = re.search(<span class="string">'f[oae]+'</span>, <span class="string">'somefoo'</span>)</div><div class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">if</span> m <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:</div><div class="line"><span class="meta">... </span>    m.group()</div><div class="line"><span class="string">'foo'</span></div></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span>m = re.match(<span class="string">'f[oae]+'</span>, <span class="string">'somefoo'</span>)</div><div class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">if</span> m <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:   <span class="comment"># 此时 m 为 None</span></div><div class="line"><span class="meta">... </span>    m.group()</div></pre></td></tr></table></figure>
+<h3 id="子组的使用"><a href="#子组的使用" class="headerlink" title="子组的使用"></a>子组的使用</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span>m = re.match(<span class="string">'(\w\w\w)-(\d\d\d)'</span>, <span class="string">'abc-123'</span>)  <span class="comment"># 用 () 进行了分组</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">if</span> m <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:</div><div class="line"><span class="meta">... </span>    m.group()   <span class="comment"># 所有匹配的部分</span></div><div class="line"><span class="string">'abc-123'</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>m.group(<span class="number">1</span>)  <span class="comment"># 匹配的子组1</span></div><div class="line"><span class="string">'abc'</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>m.group(<span class="number">2</span>)  <span class="comment"># 匹配的子组2</span></div><div class="line"><span class="string">'123'</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>m.groups()  <span class="comment"># 匹配的所有子组</span></div><div class="line">(<span class="string">'abc'</span>, <span class="string">'123'</span>)</div></pre></td></tr></table></figure>
+<p>当有匹配分组时，可以使用 <code>groups</code> 方法获取一个包含所有匹配子组的元组。</p>
+<p>子组还可以嵌套使用：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span>m = re.match(<span class="string">'(a(b))'</span>, <span class="string">'ab'</span>)</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>m.group()</div><div class="line"><span class="string">'ab'</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>m.group(<span class="number">1</span>)</div><div class="line"><span class="string">'ab'</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>m.group(<span class="number">2</span>)</div><div class="line"><span class="string">'b'</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>m.groups()</div><div class="line">(<span class="string">'ab'</span>, <span class="string">'b'</span>)</div></pre></td></tr></table></figure>
+<h3 id="re-findall-pattern-string-flags-0"><a href="#re-findall-pattern-string-flags-0" class="headerlink" title="re.findall(pattern, string, flags=0)"></a>re.findall(pattern, string, flags=0)</h3><p>参数同 <code>search</code>。<code>findall</code> 返回所有匹配成功的列表，如无匹配，返回空列表。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span>re.findall(<span class="string">'er'</span>, <span class="string">'there is peter'</span>)</div><div class="line">[<span class="string">'er'</span>, <span class="string">'er'</span>]</div></pre></td></tr></table></figure>
+<h3 id="re-sub-pattern-repl-string-count-0-flags-0"><a href="#re-sub-pattern-repl-string-count-0-flags-0" class="headerlink" title="re.sub(pattern, repl, string, count=0, flags=0)"></a>re.sub(pattern, repl, string, count=0, flags=0)</h3><p>用正则表达式 <code>pattern</code> 匹配字符串 <code>string</code>，匹配成功后用 <code>repl</code> 进行替换。<code>count</code> 为最大替换次数，0 表示全部替换。<code>flags</code> 为可选标识符。返回替换后的字符串。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span>re.sub(<span class="string">'X'</span>, <span class="string">'10'</span>, <span class="string">'X * X == X ** 2'</span>)</div><div class="line"><span class="string">'10 * 10 == 10 ** 2'</span></div></pre></td></tr></table></figure>
+<p>另外还有一个 <code>re.subn</code> 方法，参数和 <code>sub</code> 相同，返回值不同，为一个元组：(‘替换后的字符串’, 替换的次数)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span>re.subn(<span class="string">'X'</span>, <span class="string">'10'</span>, <span class="string">'X * X == X ** 2'</span>)</div><div class="line">(<span class="string">'10 * 10 == 10 ** 2'</span>, <span class="number">3</span>)</div></pre></td></tr></table></figure>
+<h3 id="re-split-pattern-string-maxsplit-0-flags-0"><a href="#re-split-pattern-string-maxsplit-0-flags-0" class="headerlink" title="re.split(pattern, string, maxsplit=0, flags=0)"></a>re.split(pattern, string, maxsplit=0, flags=0)</h3><p>用正则表达式 <code>pattern</code> 分割 <code>string</code>，<code>maxsplit</code> 为最大分隔次数，0 表示全部分隔。<code>flags</code> 为可选标识符。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span>re.split(<span class="string">'\W+'</span>, <span class="string">'Words, words, words.'</span>)  <span class="comment"># 用非数字字母分割</span></div><div class="line">[<span class="string">'Words'</span>, <span class="string">'words'</span>, <span class="string">'words'</span>, <span class="string">''</span>]</div></pre></td></tr></table></figure>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Python 修改 pip 镜像源]]></title>
+      <url>https://seven88.github.io/2015/02/09/Python-%E4%BF%AE%E6%94%B9-pip-%E9%95%9C%E5%83%8F%E6%BA%90/</url>
+      <content type="html"><![CDATA[<p>使用 Python 的童鞋免不了需要 <code>pip</code> 来安装第三方依赖。但由于官方源在国外，下载很慢或者直接连接不上的情况时有发生。所以使用一个靠谱的镜像源就很有必要了。</p>
+<p>这里推荐使用豆瓣的镜像源，<a href="https://pypi.doubanio.com/simple/" target="_blank" rel="external">https://pypi.doubanio.com/simple/</a>。</p>
+<h3 id="还没有安装-pip？"><a href="#还没有安装-pip？" class="headerlink" title="还没有安装 pip？"></a>还没有安装 pip？</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 下载安装文件</span></div><div class="line">wget https://bootstrap.pypa.io/get-pip.py</div><div class="line"><span class="comment"># 执行安装</span></div><div class="line">sudo python get-pip.py</div></pre></td></tr></table></figure>
+<h3 id="pip-源修改"><a href="#pip-源修改" class="headerlink" title="pip 源修改"></a>pip 源修改</h3><p>修改源十分简单，只需配置用户目录下的 <code>.pip/pip.conf</code> 文件即可。步骤如下</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">cd</span> ~</div><div class="line">mkdir .pip</div><div class="line"><span class="built_in">cd</span> .pip</div><div class="line">touch pip.conf</div></pre></td></tr></table></figure>
+<p>接着在 <code>pip.conf</code> 写入以下内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">[global]</div><div class="line">index-url = https://pypi.doubanio.com/simple/</div></pre></td></tr></table></figure>
+<p>之后使用 <code>pip</code> 命令就会直接从指定的源安装了。</p>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[python 虚拟环境 virtualenv 的使用]]></title>
+      <url>https://seven88.github.io/2015/01/29/python-%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83-virtualenv-%E7%9A%84%E4%BD%BF%E7%94%A8/</url>
+      <content type="html"><![CDATA[<h2 id="什么是-virtualenv？"><a href="#什么是-virtualenv？" class="headerlink" title="什么是 virtualenv？"></a>什么是 virtualenv？</h2><p>官方说明：</p>
+<blockquote>
+<p>virtualenv is a tool to create isolated Python environments.</p>
+</blockquote>
+<h2 id="为什么要用虚拟环境？"><a href="#为什么要用虚拟环境？" class="headerlink" title="为什么要用虚拟环境？"></a>为什么要用虚拟环境？</h2><p>Python 开发环境中，经常会有库依赖、版本以及系统权限等问题，比如不同项目使用的 Django 版本不同，如果直接使用系统环境，项目将无法同时运行。使用虚拟环境就可以解决这个问题。</p>
+<h2 id="如何使用？"><a href="#如何使用？" class="headerlink" title="如何使用？"></a>如何使用？</h2><p>使用 <code>pip</code> 安装即可：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo pip install virtualenv</div></pre></td></tr></table></figure>
+<p>具体可参考<a href="https://pip.pypa.io/en/latest/installing.html" target="_blank" rel="external">官方文档</a> 。</p>
+<p>本文推荐另一个更为好用的工具 <code>virtualenvwrapper</code>，它对 <code>virtualenv</code> 进行了一些非常方便使用的包装。</p>
+<a id="more"></a>
+<p>使用 <code>pip</code> 安装：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo pip install virtualenvwrapper</div></pre></td></tr></table></figure>
+<p>安装后即可使用了，常用命令如下：</p>
+<h3 id="mkvirtualenv"><a href="#mkvirtualenv" class="headerlink" title="mkvirtualenv"></a>mkvirtualenv</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mkvirtualenv envname</div></pre></td></tr></table></figure>
+<p>创建一个名为 envname 的虚拟环境，并自动切换到该环境。</p>
+<p>创建后的环境已自动安装 <code>pip</code>，之后在环境中可直接安装需要的依赖，如 <code>pip install flask</code>。</p>
+<h3 id="workon"><a href="#workon" class="headerlink" title="workon"></a>workon</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">workon envname</div></pre></td></tr></table></figure>
+<p>切换到名为 envname 的虚拟环境。</p>
+<h3 id="deactivate"><a href="#deactivate" class="headerlink" title="deactivate"></a>deactivate</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">deactivate</div></pre></td></tr></table></figure>
+<p>退出当前虚拟环境，使用系统环境。</p>
+<h3 id="setvirtualenvproject"><a href="#setvirtualenvproject" class="headerlink" title="setvirtualenvproject"></a>setvirtualenvproject</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">setvirtualenvproject</div></pre></td></tr></table></figure>
+<p>指定所在目录为当前虚拟环境的默认目录，当下次切换到该环境中，自动进入该目录。</p>
+<h3 id="rmvirtualenv"><a href="#rmvirtualenv" class="headerlink" title="rmvirtualenv"></a>rmvirtualenv</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">rmvirtualenv envname</div></pre></td></tr></table></figure>
+<p>删除名为 envname 的虚拟环境。</p>
+]]></content>
+    </entry>
     
   
-
-  <script type="text/javascript">
-    var duoshuoQuery = {short_name:"seven88"};
-    (function() {
-      var ds = document.createElement('script');
-      ds.type = 'text/javascript';ds.async = true;
-      ds.id = 'duoshuo-script';
-      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-      ds.charset = 'UTF-8';
-      (document.getElementsByTagName('head')[0]
-      || document.getElementsByTagName('body')[0]).appendChild(ds);
-    })();
-  </script>
-
   
-    
-  
-
-
-
-
-
-
-  
-  
-  <script type="text/javascript">
-    // Popup Window;
-    var isfetched = false;
-    // Search DB path;
-    var search_path = "search.xml";
-    if (search_path.length == 0) {
-       search_path = "search.xml";
-    }
-    var path = "/" + search_path;
-    // monitor main search box;
-
-    function proceedsearch() {
-      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
-      $('.popup').toggle();
-
-    }
-    // search function;
-    var searchFunc = function(path, search_id, content_id) {
-    'use strict';
-    $.ajax({
-        url: path,
-        dataType: "xml",
-        async: true,
-        success: function( xmlResponse ) {
-            // get the contents from search data
-            isfetched = true;
-            $('.popup').detach().appendTo('.header-inner');
-            var datas = $( "entry", xmlResponse ).map(function() {
-                return {
-                    title: $( "title", this ).text(),
-                    content: $("content",this).text(),
-                    url: $( "url" , this).text()
-                };
-            }).get();
-            var $input = document.getElementById(search_id);
-            var $resultContent = document.getElementById(content_id);
-            $input.addEventListener('input', function(){
-                var matchcounts = 0;
-                var str='<ul class=\"search-result-list\">';                
-                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
-                $resultContent.innerHTML = "";
-                if (this.value.trim().length > 1) {
-                // perform local searching
-                datas.forEach(function(data) {
-                    var isMatch = true;
-                    var content_index = [];
-                    var data_title = data.title.trim().toLowerCase();
-                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
-                    var data_url = data.url;
-                    var index_title = -1;
-                    var index_content = -1;
-                    var first_occur = -1;
-                    // only match artiles with not empty titles and contents
-                    if(data_title != '' && data_content != '') {
-                        keywords.forEach(function(keyword, i) {
-                            index_title = data_title.indexOf(keyword);
-                            index_content = data_content.indexOf(keyword);
-                            if( index_title < 0 && index_content < 0 ){
-                                isMatch = false;
-                            } else {
-                                if (index_content < 0) {
-                                    index_content = 0;
-                                }
-                                if (i == 0) {
-                                    first_occur = index_content;
-                                }
-                            }
-                        });
-                    }
-                    // show search results
-                    if (isMatch) {
-                        matchcounts += 1;
-                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
-                        var content = data.content.trim().replace(/<[^>]+>/g,"");
-                        if (first_occur >= 0) {
-                            // cut out 100 characters
-                            var start = first_occur - 20;
-                            var end = first_occur + 80;
-                            if(start < 0){
-                                start = 0;
-                            }
-                            if(start == 0){
-                                end = 50;
-                            }
-                            if(end > content.length){
-                                end = content.length;
-                            }
-                            var match_content = content.substring(start, end);
-                            // highlight all keywords
-                            keywords.forEach(function(keyword){
-                                var regS = new RegExp(keyword, "gi");
-                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
-                            });
-                            
-                            str += "<p class=\"search-result\">" + match_content +"...</p>"
-                        }
-                        str += "</li>";
-                    }
-                })};
-                str += "</ul>";
-                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
-                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
-                $resultContent.innerHTML = str;
-            });
-            proceedsearch();
-        }
-    });}
-
-    // handle and trigger popup window;
-    $('.popup-trigger').mousedown(function(e) {
-      e.stopPropagation();
-      if (isfetched == false) {
-        searchFunc(path, 'local-search-input', 'local-search-result');
-      } else {
-        proceedsearch();
-      };
-
-    });
-
-    $('.popup-btn-close').click(function(e){
-      $('.popup').hide();
-      $(".popoverlay").remove();
-      $('body').css('overflow', '');
-    });
-    $('.popup').click(function(e){
-      e.stopPropagation();
-    });
-  </script>
-
-  
-
-  
-
-  
-  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
-  <script>AV.initialize("oJRP3RjRJDwSSWHXSI4elGVS-gzGzoHsz", "3izRC0LlBacexNM3MSqnJWol");</script>
-  <script>
-    function showTime(Counter) {
-      var query = new AV.Query(Counter);
-      var entries = [];
-      var $visitors = $(".leancloud_visitors");
-
-      $visitors.each(function () {
-        entries.push( $(this).attr("id").trim() );
-      });
-
-      query.containedIn('url', entries);
-      query.find()
-        .done(function (results) {
-          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
-
-          if (results.length === 0) {
-            $visitors.find(COUNT_CONTAINER_REF).text(0);
-            return;
-          }
-
-          for (var i = 0; i < results.length; i++) {
-            var item = results[i];
-            var url = item.get('url');
-            var time = item.get('time');
-            var element = document.getElementById(url);
-
-            $(element).find(COUNT_CONTAINER_REF).text(time);
-          }
-          for(var i = 0; i < entries.length; i++) {
-            var url = entries[i];
-            var element = document.getElementById(url);
-            var countSpan = $(element).find(COUNT_CONTAINER_REF);
-            if( countSpan.text() == '') {
-              countSpan.text(0);
-            }
-          }
-        })
-        .fail(function (object, error) {
-          console.log("Error: " + error.code + " " + error.message);
-        });
-    }
-
-    function addCount(Counter) {
-      var $visitors = $(".leancloud_visitors");
-      var url = $visitors.attr('id').trim();
-      var title = $visitors.attr('data-flag-title').trim();
-      var query = new AV.Query(Counter);
-
-      query.equalTo("url", url);
-      query.find({
-        success: function(results) {
-          if (results.length > 0) {
-            var counter = results[0];
-            counter.fetchWhenSave(true);
-            counter.increment("time");
-            counter.save(null, {
-              success: function(counter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(counter.get('time'));
-              },
-              error: function(counter, error) {
-                console.log('Failed to save Visitor num, with error message: ' + error.message);
-              }
-            });
-          } else {
-            var newcounter = new Counter();
-            /* Set ACL */
-            var acl = new AV.ACL();
-            acl.setPublicReadAccess(true);
-            acl.setPublicWriteAccess(true);
-            newcounter.setACL(acl);
-            /* End Set ACL */
-            newcounter.set("title", title);
-            newcounter.set("url", url);
-            newcounter.set("time", 1);
-            newcounter.save(null, {
-              success: function(newcounter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
-              },
-              error: function(newcounter, error) {
-                console.log('Failed to create');
-              }
-            });
-          }
-        },
-        error: function(error) {
-          console.log('Error:' + error.code + " " + error.message);
-        }
-      });
-    }
-
-    $(function() {
-      var Counter = AV.Object.extend("Counter");
-      if ($('.leancloud_visitors').length == 1) {
-        addCount(Counter);
-      } else if ($('.post-title-link').length > 1) {
-        showTime(Counter);
-      }
-    });
-  </script>
-
-
-
-  
-
-</body>
-</html>
+</search>
