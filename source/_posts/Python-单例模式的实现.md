@@ -1,7 +1,7 @@
 ---
 title: Python 单例模式的实现
 date: 2015-08-20 18:42:17
-tags: [python]
+tags: [Python]
 ---
 
 

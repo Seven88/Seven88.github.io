@@ -1,7 +1,7 @@
 ---
 title: python 虚拟环境 virtualenv 的使用
 date: 2015-01-29 12:06:16
-tags: [python]
+tags: [Python]
 ---
 
 ## 什么是 virtualenv？
