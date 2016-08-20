@@ -1,7 +1,7 @@
 ---
 title: Python 单例模式的实现
 date: 2015-08-20 18:42:17
-tags:
+tags: [python]
 ---
 
 
@@ -9,7 +9,7 @@ tags:
 
 本文主要介绍 Python 中实现单例模式的几种方法。
 
-### 1. 使用 __new__ 方法
+### 使用 __new__ 方法
 
 ``` Python
 class Singleton(object):
@@ -24,7 +24,7 @@ class MyClass(Singleton):
     a = 1
 ```
 
-### 2. 共享属性
+### 共享属性
 
 ``` Python
 class Borg(object):
@@ -38,7 +38,7 @@ class MyClass2(Borg):
     a = 1
 ```
 
-### 3. 装饰器版本
+### 装饰器版本
 
 ``` Python
 def singleton(cls):
@@ -54,7 +54,7 @@ class MyClass:
   ...
 ```
 
-### 4. import方法
+### import方法
 
 ``` Python
 # mysingleton.py
