@@ -94,7 +94,7 @@
 <meta property="og:description" content="使用 Python 的童鞋免不了需要 pip 来安装第三方依赖。但由于官方源在国外，下载很慢或者直接连接不上的情况时有发生。所以使用一个靠谱的镜像源就很有必要了。
 这里推荐使用豆瓣的镜像源，https://pypi.doubanio.com/simple/。
 还没有安装 pip？1234# 下载安装文件wget https://bootstrap.pypa.io/get-pip.py# 执行安装s">
-<meta property="og:updated_time" content="2016-08-20T08:58:06.000Z">
+<meta property="og:updated_time" content="2016-08-23T08:31:18.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Python 修改 pip 镜像源">
 <meta name="twitter:description" content="使用 Python 的童鞋免不了需要 pip 来安装第三方依赖。但由于官方源在国外，下载很慢或者直接连接不上的情况时有发生。所以使用一个靠谱的镜像源就很有必要了。
@@ -335,6 +335,8 @@
 <p>接着在 <code>pip.conf</code> 写入以下内容：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">[global]</div><div class="line">index-url = https://pypi.doubanio.com/simple/</div></pre></td></tr></table></figure>
 <p>之后使用 <code>pip</code> 命令就会直接从指定的源安装了。</p>
+<p>上面使用的是豆瓣源，也可以使用阿里云源：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">[global]</div><div class="line">index-url = http://mirrors.aliyun.com/pypi/simple/</div><div class="line"></div><div class="line">[install]</div><div class="line">trusted-host = mirrors.aliyun.com</div></pre></td></tr></table></figure>
 
       
     </div>
