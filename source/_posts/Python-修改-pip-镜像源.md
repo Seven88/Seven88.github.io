@@ -36,3 +36,13 @@ index-url = https://pypi.doubanio.com/simple/
 ```
 
 之后使用 `pip` 命令就会直接从指定的源安装了。
+
+上面使用的是豆瓣源，也可以使用阿里云源：
+
+```
+[global]
+index-url = http://mirrors.aliyun.com/pypi/simple/
+
+[install]
+trusted-host = mirrors.aliyun.com
+```
