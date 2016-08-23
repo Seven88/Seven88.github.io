@@ -25,7 +25,7 @@ sudo python get-pip.py
 cd ~
 mkdir .pip
 cd .pip
-touch pip.conf
+vim pip.conf
 ```
 
 接着在 `pip.conf` 写入以下内容：
