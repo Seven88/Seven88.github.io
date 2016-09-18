@@ -267,6 +267,125 @@
             
               
                 
+                <a class="post-title-link" href="/2016/09/18/GoSublime-集成使用-GoImports/" itemprop="url">
+                  GoSublime 集成使用 GoImports
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-09-18T16:04:09+08:00" content="2016-09-18">
+              2016-09-18
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/09/18/GoSublime-集成使用-GoImports/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/09/18/GoSublime-集成使用-GoImports/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2016/09/18/GoSublime-集成使用-GoImports/" class="leancloud_visitors" data-flag-title="GoSublime 集成使用 GoImports">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">imported and not used: &apos;fmt&apos;</div><div class="line"># 或者</div><div class="line">undefined: fmt in fmt.Sprintf</div></pre></td></tr></table></figure>
+<p>是否厌倦了编译 <code>Go</code> 文件时看到类似以上的错误信息？让 <code>GoImports</code> 来拯救你！</p>
+<p>由于笔者偏爱 <code>SublimeText</code>，这里主要介绍怎样在 <code>SublimeText</code> 中使用 <code>GoImports</code>。</p>
+<ol>
+<li>确认 <code>$GOPATH/bin</code> 在 <code>$PATH</code> 中。</li>
+<li>go get -u golang.org/x/tools/cmd/goimports，安装 <code>GoImports</code>。</li>
+<li>安装 <a href="https://github.com/DisposaBoy/GoSublime" target="_blank" rel="external">GoSublime</a>。</li>
+<li>编辑 <code>GoSublime.sublime-settings</code>，添加 <code>&quot;fmt_cmd&quot;: [&quot;goimports&quot;]</code>。</li>
+<li>测试 <code>import</code>，添加、删除各种包，保存文件会自动删除、添加，Job Done。</li>
+</ol>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/06/10/《Web-全栈工程师的自我修养》思维导图/" itemprop="url">
                   《Web 全栈工程师的自我修养》思维导图
                 </a>
@@ -1457,7 +1576,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">9</span>
+              <span class="site-state-item-count">10</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1467,7 +1586,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-count">9</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
