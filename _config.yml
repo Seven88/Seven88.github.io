@@ -73,7 +73,7 @@ deploy:
   repo: git@github.com:Seven88/Seven88.github.io.git
   branch: [master]
 
-duoshuo_shortname: seven88
+# duoshuo_shortname: seven88
 # duoshuo_hotartical: true
 
 leancloud_visitors:
